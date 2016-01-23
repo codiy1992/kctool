@@ -13,7 +13,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 Private blIsWaiting As Boolean ' 是否等待下一帧数据
-Public blIsinit As Boolean     ' 是否进行设备初始化
+Public blIsOpen As Boolean     ' 是否进行设备初始化
 Public blIsCheck As Boolean    ' 是否进行设备检查
 Public blIsPickSms As Boolean  ' 是否拉取短信
 
@@ -24,11 +24,12 @@ Public Imsi As String        ' IMSI号
 Public Mobile As String      ' 手机号
 Public bMobile As String     ' 呼转手机号
 
-Public Task As Task          ' 将送往该COM口的命令任务队列
+Public task As task          ' 将送往该COM口的命令任务队列
+Public comPort As String     ' 串口编号
 
 Private Sub Class_Initialize()
     blIsWaiting = False
-    blIsinit = True
+    blIsOpen = False
     blIsCheck = True
     blIsPickSms = True
     strAtTemp = ""
@@ -36,9 +37,22 @@ Private Sub Class_Initialize()
     Imei = ""
     Imsi = ""
     Mobile = ""
-    Set Task = New Task
+    bMobile = ""
+    Set task = New task
 End Sub
-
+Public Function ReSet()
+    blIsWaiting = False
+    blIsOpen = False
+    blIsCheck = True
+    blIsPickSms = True
+    strAtTemp = ""
+    Iccid = ""
+    Imei = ""
+    Imsi = ""
+    Mobile = ""
+    bMobile = ""
+    Set task = New task
+End Function
 Public Function GetData(ByRef strInput As String) As String
     Dim iLen As Integer
     If blIsWaiting = False Then
@@ -133,26 +147,26 @@ End Function
 Public Function sendSMS(strMobile As String, strCnt As String, Optional blIsCH As Boolean)
     strMobile = GB2Unicode(strMobile)
     strCnt = GB2Unicode(strCnt)
-    Task.Push ("AT+CMGF=1" & vbCrLf)          ' 短信格式选择 0:PDU 1:文本
-    Task.Push ("AT+CSCS=""UCS2""" & vbCrLf)   ' 字符集选择
-    Task.Push ("AT+CSCA?" & vbCrLf)           ' 自动设置短消息中心号码，只做查询即可
-    Task.Push ("AT+CNMI=2,1" & vbCrLf)        ' 新消息指示格式 "+CMTI:”SM”,3"
+    task.Push ("AT+CMGF=1" & vbCrLf)          ' 短信格式选择 0:PDU 1:文本
+    task.Push ("AT+CSCS=""UCS2""" & vbCrLf)   ' 字符集选择
+    task.Push ("AT+CSCA?" & vbCrLf)           ' 自动设置短消息中心号码，只做查询即可
+    task.Push ("AT+CNMI=2,1" & vbCrLf)        ' 新消息指示格式 "+CMTI:”SM”,3"
     If blIsCH <> True Then
-        Task.Push ("AT+CSMP=17,167,0,8" & vbCrLf) ' 发送中文短信
+        task.Push ("AT+CSMP=17,167,0,8" & vbCrLf) ' 发送中文短信
     Else
-        Task.Push ("AT+CSMP=17,167,0,0" & vbCrLf) ' 发送英文短信
+        task.Push ("AT+CSMP=17,167,0,0" & vbCrLf) ' 发送英文短信
     End If
-    Task.Push ("AT+CMGS=""" & strMobile & """" & vbCrLf)
-    Task.Push (strCnt)
-    Task.Push ("--SEND--")
+    task.Push ("AT+CMGS=""" & strMobile & """" & vbCrLf)
+    task.Push (strCnt)
+    task.Push ("--TAIL--")  ' 结束符 CTRL+Z
 End Function
 
 Public Function delSMS(iSmsIndex As Integer, Optional blDelAll As Boolean)
     If blDelAll = True Then
-        Task.Push ("AT+CMGD=0,2" & vbCrLf)
+        task.Push ("AT+CMGD=0,2" & vbCrLf)
     Else
         If IsNumeric(iSmsIndex) And 1 <= iSmsIndex And iSmsIndex <= 50 Then
-            Task.Push ("AT+CMGD=" & iSmsIndex & vbCrLf)  ' 删除指定位置短信
+            task.Push ("AT+CMGD=" & iSmsIndex & vbCrLf)  ' 删除指定位置短信
         End If
     End If
 End Function

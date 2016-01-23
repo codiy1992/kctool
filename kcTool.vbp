@@ -12,6 +12,7 @@ Module=mdlSmsFuns; mdlSmsFuns.bas
 Module=mdlCommVars; mdlCommVars.bas
 Module=mdlFileFuns; mdlFileFuns.bas
 Class=DB; DB.cls
+Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0; mscomctl.ocx
 IconForm="MainForm"
 Startup="MainForm"
 HelpFile=""

@@ -1,39 +1,6 @@
 Attribute VB_Name = "mdlCommFuns"
 Option Explicit
-' *********************************************
-' The replacement window proc.
-' *********************************************
-Public Function NewWindowProc(ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
-    If Msg = TRAY_CALLBACK Then
-        ' The user clicked on the tray icon.
-        ' Look for click events.
-        If lParam = WM_LBUTTONUP Then
-            ' On left click, show the form.
-            If TheForm.WindowState = vbMinimized Then
-                TheForm.WindowState = TheForm.LastState
-                TheForm.Visible = True
-                TheForm.SetFocus
-            Else
-                'TheForm.Visible = False
-                TheForm.LastState = TheForm.WindowState
-                TheForm.WindowState = vbMinimized
-                TheForm.Hide
-            End If
-            Exit Function
-        End If
-        If lParam = WM_RBUTTONUP Then
-            ' On right click, show the menu.
-            TheForm.PopupMenu TheMenu
-            Exit Function
-        End If
-    End If
-    
-    ' Send other messages to the original
-    ' window proc.
-    NewWindowProc = CallWindowProc( _
-        OldWindowProc, hWnd, Msg, _
-        wParam, lParam)
-End Function
+
 Public Function QueryRSSI(strInput As String, iSignal As Integer, iBER As Integer) As Boolean
     
     Dim strTmp As String

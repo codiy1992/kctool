@@ -18,7 +18,7 @@ Private Const DB_HOST = "localhost"
 Private Const DB_USER = "root"
 Private Const DB_PASS = "root"
 Private Const DB_NAME = "codiy"
-Private Const TB_BIND = "kc_main"
+Private Const TB_MAIN = "kc_main"
 Private Const TB_SMS_IN = "kc_sms_in"
 Private Const TB_SMS_OUT = "kc_sms_out"
 
@@ -38,47 +38,53 @@ Private Sub Class_Terminate()
     End If
 End Sub
 
-Public Function Query(ByRef strSql As String)
-    Dim RecS As New ADODB.Recordset
-    RecS.Open strSql, Conn
-    Query = RecS(0)
-    RecS.Close
-End Function
-
-Public Function InitCard(ByRef strIccid As String, _
+Public Function RegistCard(ByRef strIccid As String, _
                         Optional strImei As String, _
                         Optional strImsi As String, _
-                        Optional strMobile As String)
+                        Optional strMobile As String) As String
     Dim Sql As String
     Dim RecS As New ADODB.Recordset
-    Sql = "select * from " & TB_BIND & " where iccid = '" & strIccid & "'"
+    Sql = "select * from " & TB_MAIN & " where iccid = '" & strIccid & "'"
     RecS.Open Sql, Conn, adOpenKeyset, adLockOptimistic
     If RecS.RecordCount = 0 Then
         RecS.AddNew
         RecS("iccid") = strIccid
-        If strImei <> Empty Then
+        If strImei <> Empty Or strImei <> "" Then
             RecS("imei") = strImei
         End If
-        If strImsi <> Empty Then
+        If strImsi <> Empty Or strImsi <> "" Then
             RecS("imsi") = strImsi
         End If
-        If strMobile <> Empty Then
+        If strMobile <> Empty Or strMobile <> "" Then
             RecS("mobile") = strMobile
         End If
         RecS.Update
+        RegistCard = ""
     Else
-        If strImei <> Empty Then
+        If RecS("mobile") <> "" Then
+            RegistCard = RecS("mobile")
+        Else
+            RegistCard = ""
+        End If
+        If strImei <> Empty Or strImei <> "" Then
             RecS("imei") = strImei
         End If
-        If strImsi <> Empty Then
+        If strImsi <> Empty Or strImsi <> "" Then
             RecS("imsi") = strImsi
         End If
-        If strMobile <> Empty Then
+        If strMobile <> Empty Or strMobile <> "" Then
             RecS("mobile") = strMobile
         End If
         RecS.Find "iccid = " & strIccid
         RecS.Update
     End If
+    RecS.Close
+End Function
+Public Function setCardRuning(ByVal strIccid As String)
+    Dim Sql As String
+    Dim RecS As New ADODB.Recordset
+    Sql = "update " & TB_MAIN & " where iccid = '" & strIccid & "'"
+    RecS.Open Sql, Conn, adOpenKeyset, adLockOptimistic
     RecS.Close
 End Function
 
