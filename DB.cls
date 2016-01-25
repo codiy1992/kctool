@@ -75,17 +75,18 @@ Public Function RegistCard(ByRef strIccid As String, _
         If strMobile <> Empty Or strMobile <> "" Then
             RecS("mobile") = strMobile
         End If
-        RecS.Find "iccid = " & strIccid
+        'RecS.Find "iccid = " & strIccid
         RecS.Update
     End If
+    RecS("status") = 1
+    RecS.Update
     RecS.Close
 End Function
-Public Function setCardRuning(ByVal strIccid As String)
+Public Function setCardClose(ByVal strIccid As String)
     Dim Sql As String
     Dim RecS As New ADODB.Recordset
-    Sql = "update " & TB_MAIN & " where iccid = '" & strIccid & "'"
+    Sql = "update " & TB_MAIN & " set status = 0 where iccid in (" & strIccid & ")"
     RecS.Open Sql, Conn, adOpenKeyset, adLockOptimistic
-    RecS.Close
 End Function
 
 Public Function SaveSMS(ByVal strIccid As String, strFrom As String, strCnt As String, strTime As String, Optional strMobile As String)
@@ -105,6 +106,37 @@ Public Function SaveSMS(ByVal strIccid As String, strFrom As String, strCnt As S
     RecS.Close
 End Function
 
+Public Function NotExecBind(ByVal strActIccids As String)
+    Dim i As Integer
+    Dim Sql As String
+    Dim execArr() As String
+    Dim RecS As New ADODB.Recordset
+    Sql = "select * from " & TB_MAIN & " where iccid in (" & strActIccids & ") and bind_status = 1 limit 5"
+    RecS.Open Sql, Conn, adOpenKeyset, adLockOptimistic ' 按读写方式打开
+    If RecS.RecordCount > 0 Then
+        ReDim execArr(0 To RecS.RecordCount - 1, 0 To 2)
+        For i = 0 To RecS.RecordCount - 1
+            execArr(i, 0) = RecS("iccid").Value
+            execArr(i, 1) = RecS("id").Value
+            execArr(i, 2) = RecS("bind_mobile").Value
+            RecS("bind_status") = 2
+            RecS.Update
+            RecS.MoveNext
+        Next i
+        NotExecBind = execArr()
+    Else
+        NotExecBind = False
+    End If
+    RecS.Close
+End Function
+
+Public Function SetBinded(ByVal strIccid As String, iBindId As Integer)
+    Conn.Execute "update " & TB_MAIN & " set bind_status = 3 where id = " & iBindId & " and iccid = '" & strIccid & "'"
+End Function
+Public Function SetNotBind(ByVal strIccid As String, iBindId As Integer)
+    Conn.Execute "update " & TB_MAIN & " set bind_status = 1 where id = " & iBindId & " and iccid = '" & strIccid & "'"
+End Function
+
 '- ------------------------------------------- -
 ' |   说明: 取出尚未发送的短信
 '  ------------------------------------------- -
@@ -117,19 +149,33 @@ Public Function NotSendedSMS(ByVal strActIccids As String)
     Dim Sql As String
     Dim smsArr() As String
     Dim RecS As New ADODB.Recordset
-    Sql = "select * from " & TB_SMS_OUT & " where iccid in (" & strActIccids & ") and status = 0"
+    Sql = "select * from " & TB_SMS_OUT & " where iccid in (" & strActIccids & ") and status = 0 group by iccid limit 10"
     RecS.Open Sql, Conn, adOpenKeyset, adLockOptimistic ' 按读写方式打开
-    ReDim smsArr(0 To RecS.RecordCount - 1, 0 To 3)
-    For i = 0 To RecS.RecordCount - 1
-        smsArr(i, 0) = RecS("iccid").Value
-        smsArr(i, 1) = RecS("mobile").Value
-        smsArr(i, 2) = RecS("to").Value
-        smsArr(i, 3) = RecS("cnt").Value
-        RecS.MoveNext
-    Next i
-    NotSendedSMS = smsArr
+    If RecS.RecordCount > 0 Then
+        ReDim smsArr(0 To RecS.RecordCount - 1, 0 To 3)
+        For i = 0 To RecS.RecordCount - 1
+            smsArr(i, 0) = RecS("iccid").Value
+            smsArr(i, 1) = RecS("id").Value
+            smsArr(i, 2) = RecS("to").Value
+            smsArr(i, 3) = RecS("cnt").Value
+            RecS("status") = 1
+            RecS.Update
+            RecS.MoveNext
+        Next i
+        NotSendedSMS = smsArr()
+    Else
+        NotSendedSMS = False
+    End If
     RecS.Close
 End Function
+
+Public Function SetSMSSended(ByVal strIccid As String, iSmsId As Integer)
+    Conn.Execute "update " & TB_SMS_OUT & " set status = 2 where id = " & iSmsId & " and iccid = '" & strIccid & "'"
+End Function
+Public Function SetSMSNotSend(ByVal strIccid As String, iSmsId As Integer)
+    Conn.Execute "update " & TB_SMS_OUT & " set status = 0 where id = " & iSmsId & " and iccid = '" & strIccid & "'"
+End Function
+
 '- ------------------------------------------- -
 '  函数说明：GB2312转换为UTF8
 '- ------------------------------------------- -

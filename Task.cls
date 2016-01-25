@@ -24,7 +24,7 @@ Attribute VB_Exposed = False
     Private Sub Class_Initialize()
         m_ReadIndex = 0
         m_WriteIndex = 0
-        m_MaxLen = 128 '队列默认大小为128
+        m_MaxLen = 256 '队列默认大小为256
         ReDim m_Task(m_MaxLen - 1)
     End Sub
    
