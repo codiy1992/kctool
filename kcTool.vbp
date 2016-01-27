@@ -1,8 +1,8 @@
 Type=Exe
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
-Reference=*\G{3F4DACA7-160D-11D2-A8E9-00104B365C9F}#5.5#0#..\..\..\..\Windows\SysWOW64\vbscript.dll\3#Microsoft VBScript Regular Expressions 5.5
-Reference=*\G{B691E011-1797-432E-907A-4D8C69339129}#6.1#0#..\..\..\..\Program Files (x86)\Common Files\System\ado\msado15.dll#Microsoft ActiveX Data Objects 6.1 Library
-Object={648A5603-2C6E-101B-82B6-000000000014}#1.1#0; mscomm32.ocx
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+Reference=*\G{3F4DACA7-160D-11D2-A8E9-00104B365C9F}#5.5#0#..\..\..\..\..\WINDOWS\System32\vbscript.dll\3#Microsoft VBScript Regular Expressions 5.5
+Reference=*\G{2A75196C-D9EB-4129-B803-931327F72D5C}#2.8#0#..\..\..\..\..\Program Files\Common Files\system\ado\msado15.dll#Microsoft ActiveX Data Objects 2.8 Library
+Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCTL.OCX
 Form=MainForm.frm
 Module=mdlCommFuns; mdlCommFuns.bas
 Module=mdlType; mdlType.bas
@@ -11,13 +11,13 @@ Class=Com; Com.cls
 Module=mdlSmsFuns; mdlSmsFuns.bas
 Module=mdlCommVars; mdlCommVars.bas
 Class=DB; DB.cls
-Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0; mscomctl.ocx
+Module=mdlPComm; mdlPcomm.BAS
 IconForm="MainForm"
 Startup="MainForm"
 HelpFile=""
 Title="卡池助手 -- by codiy"
 ExeName32="kcTool.exe"
-Path32=".."
+Path32="\\172.16.2.74\猫池\KcTool安装包"
 Command32=""
 Name="工程1"
 HelpContextID="0"
@@ -44,3 +44,6 @@ Retained=0
 ThreadPerObject=0
 MaxNumberOfThreads=1
 DebugStartupOption=0
+
+[MS Transaction Server]
+AutoRefresh=1

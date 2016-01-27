@@ -92,7 +92,7 @@ Public Function PickOneSMS(strInputData As String, RetSMS As SMSDef, ByVal blIsL
     
     Dim MyStr()         As String
     Dim aryTmp()        As String
-    
+    Dim DateTime As String
 On Error GoTo ErrorSave
     
 '+CMGL: 24,"REC READ","+8613811055271",,"04/06/03,22:35:35+32"
@@ -163,11 +163,6 @@ ErrorDecode:
             MyStr(1) = Right(MyStr(1), Len(MyStr(1)) - 3)
         End If
         
-        '======== 如果时间中含有时区，则去除 ========
-        iLen = InStr(MyStr(3), "+")
-        If iLen > 0 Then MyStr(3) = Left(MyStr(3), iLen - 1)
-        iLen = InStr(MyStr(3), "-")
-        If iLen > 0 Then MyStr(3) = Left(MyStr(3), iLen - 1)
         
         '======== 取出短信中的用户数据UD ========
         iCr = InStr(strTmp3, vbCr)
@@ -176,11 +171,24 @@ ErrorDecode:
         End If
         
         '======== 分别提取短消息的详细内容 ========
+        If Left(MyStr(1), 2) = "00" Then
+            RetSMS.SourceNo = Unicode2GB(MyStr(1))
+        Else
+            RetSMS.SourceNo = MyStr(1)
+        End If
         RetSMS.SmsMain = Unicode2GB(strTmp3)
-        RetSMS.SourceNo = Unicode2GB(MyStr(1))
+        
+        '======== 如果时间中含有时区，则去除 ========
+        DateTime = Format(MyStr(2), "YYYY-MM-DD") & " " & Format(MyStr(3), "HH:MM:SS")
+        iLen = InStr(DateTime, "+")
+        If iLen > 0 Then DateTime = Left(DateTime, iLen - 1)
+        iLen = InStr(DateTime, "-")
+        If iLen > 0 Then DateTime = Left(DateTime, iLen - 1)
+        
         RetSMS.ReachDate = MyStr(2)
         RetSMS.ReachTime = MyStr(3)
-        RetSMS.DateTime = Format(MyStr(2), "YYYY-MM-DD") & " " & Format(MyStr(3), "HH:MM:SS")
+        RetSMS.DateTime = DateTime
+        
         If Err = 0 Then PickOneSMS = True
     End If
     

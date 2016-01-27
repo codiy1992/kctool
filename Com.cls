@@ -20,6 +20,9 @@ Public blIsATExecing As Boolean  ' 当前AT命令是否正在执行
 
 Public iSmsId As Integer     ' 当前正在发送的短信ID
 Public iBindId As Integer    ' 当前正在执行的绑定任务ID
+Private iTryCnt As Integer   ' 重复尝试次数 查ICCID
+Public iWaitCnt As Integer   ' 等待数据次数
+Public iQccfcCnt As Integer  ' 查询呼转设置
 
 Private strAtTemp  As String ' AT响应数据暂存区
 Public Iccid As String       ' ICCID卡号
@@ -28,9 +31,9 @@ Public Imsi As String        ' IMSI号
 Public Mobile As String      ' 手机号
 Public bMobile As String     ' 呼转手机号
 
-
 Public task As task          ' 将送往该COM口的命令任务队列
-Public comPort As String     ' 串口编号
+Public comPort As Integer     ' 串口编号
+Public portErr As Integer
 
 Private Sub Class_Initialize()
     blIsWaiting = False
@@ -46,6 +49,9 @@ Private Sub Class_Initialize()
     bMobile = ""
     iSmsId = 0
     iBindId = 0
+    iTryCnt = 0
+    iWaitCnt = 0
+    iQccfcCnt = 0
     Set task = New task
 End Sub
 Public Function ReSet()
@@ -62,10 +68,91 @@ Public Function ReSet()
     bMobile = ""
     iSmsId = 0
     iBindId = 0
+    iTryCnt = 0
+    iWaitCnt = 0
+    iQccfcCnt = 0
     Set task = New task
 End Function
+
+Public Function ReadData() As String
+    Dim i As Long
+    Dim rlen As Long
+    Dim blEmpty As Boolean
+    Dim buf(0 To 511) As Byte
+    Dim Top As Long
+    blEmpty = True
+    rlen = sio_read(comPort, buf(0), 512)
+    For i = 0 To 511
+        If buf(i) <> 0 Then
+            blEmpty = False
+            Exit For
+        End If
+    Next i
+    If blEmpty = False Then
+        For i = 0 To 511
+            If buf(511 - i) <> 0 Then
+               Top = 511 - i
+               Exit For
+            End If
+        Next i
+        For i = 0 To Top
+            ReadData = ReadData & Chr(Val(buf(i)))
+        Next i
+    Else
+        ReadData = ""
+        iWaitCnt = iWaitCnt + 1
+    End If
+End Function
+
+Public Function WriteData(outData)
+    Dim timeout As Long
+    Dim iLen As Long
+    Dim HexArr() As Byte
+    iWaitCnt = 0
+    If LCase(TypeName(outData)) = "string" Then
+        iLen = Str2Hex(outData, HexArr())
+    ElseIf LCase(TypeName(outData)) = "byte()" Then
+        HexArr() = outData
+        iLen = UBound(HexArr) + 1
+    End If
+    If iLen = 0 Then
+        Exit Function
+    End If
+     Call sio_GetWriteTimeouts(comPort, 0)
+    timeout = 1000 / sio_getbaud(comPort)  'ms /byte'
+    If timeout < 1 Then
+        timeout = 1
+    End If
+    timeout = timeout * iLen * 2             ' 256 byte;*2 for delay
+    Call sio_SetWriteTimeouts(comPort, timeout)
+    Call sio_write(comPort, HexArr(0), iLen)
+    Call sio_SetWriteTimeouts(comPort, 0)
+End Function
+
+Public Function Str2Hex(ByVal strInput As String, HexArr() As Byte)
+    Dim outputLen As Integer                                                      '  发送数据长度
+    Dim temp As String                                                            '  发送数据暂存
+    Dim dataCount As Long                                                         '  数据个数计数
+    Dim i As Long                                                                 '  局部变量
+    Dim abytS() As Byte
+    Dim bytTemp As Byte
+    Dim strTemp As String
+    abytS = StrConv(strInput, vbFromUnicode)
+    For i = 0 To UBound(abytS)
+        bytTemp = abytS(i)
+        strTemp = Hex(bytTemp)
+        strTemp = Right("00" & strTemp, 2)
+        temp = temp & strTemp
+    Next i
+    dataCount = Len(temp)
+    ReDim HexArr(dataCount / 2 - 1)                                                 '  重新定义数组长度
+    For i = 0 To dataCount / 2 - 1
+        HexArr(i) = Val("&H" + Mid(temp, i * 2 + 1, 2))                          '  取出数据转换成十六进制并
+    Next
+    Str2Hex = dataCount / 2                                          '  计算总发送数
+End Function
+
 Public Function GetData(ByRef strInput As String) As String
-    Dim iLen As Integer
     If blIsWaiting = False Then
         If UCase(Left(strInput, 2)) = "AT" Then         '正常情况下的AT命令响应
             ' 判断是否为完整的AT命令响应数据
@@ -83,6 +170,7 @@ Public Function GetData(ByRef strInput As String) As String
             blIsWaiting = False
         End If
     Else
+        'MsgBox strAtTemp & strInput
         If InStr(strInput, "OK") > 0 Or InStr(strInput, "ERROR") > 0 Or (strAtTemp & strInput = "AT+CFUN=1,1" & vbCrLf & "IIII") Then
             GetData = strAtTemp & strInput
             strAtTemp = ""
@@ -111,9 +199,9 @@ Public Function AnalysisData(strInput As String, strOut As String) As String
     
     Select Case strAT
         Case "AT+CSQ"
-            strOut = regExpGetFirst(":\s([^\s]*)", strInput)
+            strOut = regExpGetFirst(":\s([^\r]*)", strInput)
         Case "AT+COPS?"
-            strOut = regExpGetFirst(":\s([^\s]*)", strInput)
+            strOut = regExpGetFirst("""([^""]*)""", strInput)
         Case "AT+CGSN"
             strOut = regExpGetFirst("(\d{15})", strInput)
         Case "AT+CIMI"
@@ -123,16 +211,26 @@ Public Function AnalysisData(strInput As String, strOut As String) As String
             If strOut = "" Then
                 strOut = "-RETRY-"
             End If
+            If InStr(strInput, "ERROR") > 0 Then
+                iTryCnt = iTryCnt + 1
+                If iTryCnt > 3 Then
+                    strAT = "-AT-NO-CCID-"
+                End If
+            End If
         Case "AT+CCFC=0,2" 'AT+CCFC=0,2\r\n+CCFC: 1,1,"+8618650346179",145,,,\r\nOK
             strOut = regExpGetFirst("""(?:\+86)?(\d{11})""", strInput)
+            If strOut = "" Then
+                iQccfcCnt = iQccfcCnt + 1
+            End If
         Case "AT+CCFC=0,4"
             If InStr(strInput, "OK") Then
+                iQccfcCnt = 0
                 strAT = "-AT-UNBIND-MOBILE-OK-"
             Else
                 strAT = "-AT-UNBIND-MOBILE-FAILED-"
             End If
         Case "AT+CFUN=1,1"
-            If InStr(strInput, "IIII") Then
+            If InStr(strInput, "IIII") Or InStr(strInput, "OK") Then
                 strAT = "-AT-INIT-OK-"
                 strOut = ""
             End If
@@ -151,6 +249,7 @@ Public Function AnalysisData(strInput As String, strOut As String) As String
                 End If
             ElseIf InStr(strAT, "AT+CCFC=0,3") > 0 Then
                 If InStr(strInput, "OK") Then
+                    iQccfcCnt = 0
                     strAT = "-AT-BIND-MOBILE-OK-"
                 Else
                     strAT = "-AT-BIND-MOBILE-FAILED-"
@@ -232,4 +331,63 @@ Public Function regExpGetFirst(strPat As String, strInput As String) As String
    End If
 End Function
 
+Public Function OpenPort()
+    Dim ret As Long
+    Dim mode As Long
+    Dim Hw  As Long, Sw As Long
+    Dim timeout As Long
+    
+    mode = P_NONE Or BIT_8 Or STOP_1 'n,8,1
+    Hw = 0 '校验位
+    Sw = 0 '流控制
+    blIsOpen = False
+    If comPort <= 1 Then
+        Exit Function
+    End If
+    ret = sio_open(comPort)
+    If ret <> SIO_OK Then
+        portErr = ret
+        sio_close (comPort)
+        Exit Function
+    End If
+    
+    ret = sio_ioctl(comPort, B115200, mode)
+    If ret <> SIO_OK Then
+        sio_close (comPort)
+        Exit Function
+    End If
 
+    ret = sio_flowctrl(comPort, Hw Or Sw)
+    If ret <> SIO_OK Then
+        sio_close (comPort)
+        Exit Function
+    End If
+
+    ret = sio_DTR(comPort, 1)
+    If ret <> SIO_OK Then
+        sio_close (comPort)
+        Exit Function
+    End If
+
+    ret = sio_RTS(comPort, 1)
+    If ret <> SIO_OK Then
+        sio_close (comPort)
+        Exit Function
+    End If
+    
+    timeout = 1000 / sio_getbaud(comPort)  'ms /byte 获取串口波特率
+    If timeout < 1 Then
+        timeout = 1
+    End If
+    timeout = timeout * 1 * 3 ' 1 byte; '*3' is for delay
+    If timeout < 100 Then
+        timeout = 100
+    End If
+    Call sio_SetWriteTimeouts(comPort, timeout)
+    blIsOpen = True
+End Function
+
+Public Function ClosePort()
+    sio_close (comPort)
+    blIsOpen = False
+End Function

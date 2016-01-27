@@ -24,7 +24,7 @@ Attribute VB_Exposed = False
     Private Sub Class_Initialize()
         m_ReadIndex = 0
         m_WriteIndex = 0
-        m_MaxLen = 256 '队列默认大小为256
+        m_MaxLen = 98 '队列默认大小为98
         ReDim m_Task(m_MaxLen - 1)
     End Sub
    
@@ -68,6 +68,24 @@ Attribute VB_Exposed = False
             m_ReadIndex = m_ReadIndex + 1
         End If
     End Function
+   ' 栈顶元素
+   Public Function Top() As String
+        If m_ReadIndex = m_MaxLen Then
+            m_ReadIndex = 0
+        End If
+        If IsEmpty(m_Task(m_ReadIndex)) Then
+            Top = Empty
+        Else
+            Top = m_Task(m_ReadIndex)
+        End If
+    End Function
+    
+   Public Function rIndex() As Integer
+        rIndex = m_ReadIndex
+   End Function
+   Public Function wIndex() As Integer
+        wIndex = m_WriteIndex
+   End Function
    
     '清空队列
     Public Sub Clear()

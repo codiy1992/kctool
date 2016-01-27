@@ -14,7 +14,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Conn As ADODB.Connection
-Private Const DB_HOST = "localhost"
+Private Const DB_HOST = "172.16.2.74"
 Private Const DB_USER = "root"
 Private Const DB_PASS = "root"
 Private Const DB_NAME = "codiy"
@@ -98,7 +98,7 @@ Public Function SaveSMS(ByVal strIccid As String, strFrom As String, strCnt As S
     RecS("iccid") = strIccid
     RecS("from") = strFrom
     RecS("cnt") = strCnt
-    RecS("time") = strTime
+    RecS("sms_time") = strTime
     If strMobile <> Empty Then
         RecS("mobile") = strMobile
     End If
@@ -111,6 +111,10 @@ Public Function NotExecBind(ByVal strActIccids As String)
     Dim Sql As String
     Dim execArr() As String
     Dim RecS As New ADODB.Recordset
+    If strActIccids = "''" Then
+        NotExecBind = False
+        Exit Function
+    End If
     Sql = "select * from " & TB_MAIN & " where iccid in (" & strActIccids & ") and bind_status = 1 limit 5"
     RecS.Open Sql, Conn, adOpenKeyset, adLockOptimistic ' 按读写方式打开
     If RecS.RecordCount > 0 Then
@@ -149,7 +153,11 @@ Public Function NotSendedSMS(ByVal strActIccids As String)
     Dim Sql As String
     Dim smsArr() As String
     Dim RecS As New ADODB.Recordset
-    Sql = "select * from " & TB_SMS_OUT & " where iccid in (" & strActIccids & ") and status = 0 group by iccid limit 10"
+    If strActIccids = "''" Then
+        NotSendedSMS = False
+        Exit Function
+    End If
+    Sql = "select * from " & TB_SMS_OUT & " where iccid in (" & strActIccids & ") and status = 1 group by iccid limit 10"
     RecS.Open Sql, Conn, adOpenKeyset, adLockOptimistic ' 按读写方式打开
     If RecS.RecordCount > 0 Then
         ReDim smsArr(0 To RecS.RecordCount - 1, 0 To 3)
@@ -158,7 +166,7 @@ Public Function NotSendedSMS(ByVal strActIccids As String)
             smsArr(i, 1) = RecS("id").Value
             smsArr(i, 2) = RecS("to").Value
             smsArr(i, 3) = RecS("cnt").Value
-            RecS("status") = 1
+            RecS("status") = 2
             RecS.Update
             RecS.MoveNext
         Next i
@@ -170,12 +178,11 @@ Public Function NotSendedSMS(ByVal strActIccids As String)
 End Function
 
 Public Function SetSMSSended(ByVal strIccid As String, iSmsId As Integer)
-    Conn.Execute "update " & TB_SMS_OUT & " set status = 2 where id = " & iSmsId & " and iccid = '" & strIccid & "'"
+    Conn.Execute "update " & TB_SMS_OUT & " set status = 3 , sms_time = now() where id = " & iSmsId & " and iccid = '" & strIccid & "'"
 End Function
 Public Function SetSMSNotSend(ByVal strIccid As String, iSmsId As Integer)
-    Conn.Execute "update " & TB_SMS_OUT & " set status = 0 where id = " & iSmsId & " and iccid = '" & strIccid & "'"
+    Conn.Execute "update " & TB_SMS_OUT & " set status = 1 where id = " & iSmsId & " and iccid = '" & strIccid & "'"
 End Function
-
 '- ------------------------------------------- -
 '  函数说明：GB2312转换为UTF8
 '- ------------------------------------------- -
