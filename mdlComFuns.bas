@@ -1,8 +1,94 @@
-Attribute VB_Name = "mdlSmsFuns"
+Attribute VB_Name = "mdlComFuns"
 Option Explicit
+'**********************************************************************
+' 串口扫描
+'**********************************************************************
+Function comportScan(comPort() As String)
+    Dim I As Integer
+    Dim ret As Long
+    ReDim Preserve comPort(0)
+    For I = 2 To 32
+        If I <> 19 Then
+            ret = sio_open(I)
+            If ret = SIO_OK Then
+                sio_close (I)
+                comPort(UBound(comPort())) = I
+                ReDim Preserve comPort(UBound(comPort()) + 1)
+            End If
+        End If
+    Next I
+    ReDim Preserve comPort(UBound(comPort()) - 1)
+End Function
+
+'**********************************************************************
+' 获取所有在运行的iccid
+'**********************************************************************
+Public Function GetAllIccid(Optional blIsSkipSendingSMS As Boolean) As String
+    Dim cIdx As Integer
+    GetAllIccid = "''"
+    If IsComEmpty = False Then
+        If blIsSkipSendingSMS = True Then
+            For cIdx = 0 To UBound(Com())
+                If Com(cIdx).Iccid <> "" And Com(cIdx).iSmsId = 0 Then
+                    GetAllIccid = GetAllIccid & " , '" & Com(cIdx).Iccid & "'"
+                End If
+            Next cIdx
+        Else
+            For cIdx = 0 To UBound(Com())
+                If Com(cIdx).Iccid <> "" Then
+                    GetAllIccid = GetAllIccid & " , '" & Com(cIdx).Iccid & "'"
+                End If
+            Next cIdx
+        End If
+    End If
+End Function
+
+Public Function IsComEmpty() As Boolean
+    On Error GoTo Err
+    If UBound(Com()) > -1 Then
+        IsComEmpty = False
+        Exit Function
+    End If
+Err:
+    IsComEmpty = True
+End Function
+
+Public Function ComErr(iErrCode As Integer) As String
+    Select Case iErrCode
+        Case SIO_BADPORT
+            ComErr = "端口未打开"
+        Case SIO_OUTCONTROL
+            ComErr = "OUT CONTROL"
+        Case SIO_NODATA
+            ComErr = "无数据/缓冲区"
+        Case SIO_OPENFAIL
+            ComErr = "端口被占用"
+        Case SIO_RTS_BY_HW
+            ComErr = "代码:-6"
+        Case SIO_BADPARM
+            ComErr = "参数错误"
+        Case SIO_WIN32FAIL
+            ComErr = "调用WIN32失败"
+        Case SIO_BOARDNOTSUPPORT
+            ComErr = "代码:-9"
+        Case SIO_FAIL
+            ComErr = "代码:-10"
+        Case SIO_ABORT_WRITE
+            ComErr = "代码:-11"
+        Case SIO_WRITETIMEOUT
+            ComErr = "写超时"
+        Case Else
+            ComErr = "未知错误"
+    End Select
+End Function
+
+
+
+
+
 Public Function PickAllSMS(ByRef InputString As String, RetSMS() As SMSDef) As String
 
-    Dim i As Integer, iTmp As Integer, iLen As Integer, iNext As Integer, iCr As Integer
+    Dim I As Integer, iTmp As Integer, iLen As Integer, iNext As Integer, iCr As Integer
     
     Dim n As Long
     
@@ -19,21 +105,21 @@ On Error Resume Next
     
     '======== 将短消息中的双引号去除 ========
     iTmp = 0
-    For i = 0 To UBound(btTmp)
-        strTmp1 = Chr(btTmp(i))
-        If strTmp1 <> """" And btTmp(i) <> 0 And strTmp1 <> vbLf Then
+    For I = 0 To UBound(btTmp)
+        strTmp1 = Chr(btTmp(I))
+        If strTmp1 <> """" And btTmp(I) <> 0 And strTmp1 <> vbLf Then
             ReDim Preserve btTmp2(0 To iTmp + 1)
-            btTmp2(iTmp) = btTmp(i)
+            btTmp2(iTmp) = btTmp(I)
             btTmp2(iTmp + 1) = 0
             iTmp = iTmp + 2
         End If
-    Next i
+    Next I
     InputString = btTmp2
     
     n = 0
-    i = 1
+    I = 1
     Do
-        iTmp = InStr(i, InputString, "+CMGL:")
+        iTmp = InStr(I, InputString, "+CMGL:")
         iCr = InStr(iTmp, InputString, vbCr)
         
         If iTmp > 0 Then
@@ -41,7 +127,7 @@ On Error Resume Next
         ElseIf iTmp = 0 Then
             Exit Do
         End If
-        i = iTmp + 7
+        I = iTmp + 7
     Loop
     
     If n > 0 Then
@@ -51,7 +137,7 @@ On Error Resume Next
     End If
     
     '======== 逐条保存到数据库中 ========
-    For i = 1 To n
+    For I = 1 To n
         iTmp = InStr(InputString, "+CMGL:")
         iCr = InStr(InputString, vbCr)
         
@@ -69,14 +155,14 @@ On Error Resume Next
                 strTmp = Mid(InputString, iTmp, iCr - iTmp)
                 InputString = Right(InputString, Len(InputString) - iCr + 1)
             End If
-            blRet = PickOneSMS(strTmp, RetSMS(i), True)
+            blRet = PickOneSMS(strTmp, RetSMS(I), True)
             If blRet Then
 '                RetSMS(i).SmsIndex = i
                 On Error GoTo ErrorNode
 ErrorNode:
             End If
         End If
-    Next i
+    Next I
 
     PickAllSMS = "共有" & n & "条短信"
 End Function
@@ -85,7 +171,7 @@ Public Function PickOneSMS(strInputData As String, RetSMS As SMSDef, ByVal blIsL
     
     Dim blRetFunc       As Boolean
     
-    Dim i As Integer, iLen As Integer, iCr As Integer
+    Dim I As Integer, iLen As Integer, iCr As Integer
     Dim nD As Long, nRet As Long
     
     Dim strTmp As String, strTmp1 As String, strTmp2 As String, strTmp3 As String
@@ -135,15 +221,15 @@ ErrorDecode:
         '======== 如果传过来的短消息格式是"CMGL" ========
         If blIsList Then
             ReDim MyStr(0 To nD - 1)
-            For i = 0 To nD - 2
-                MyStr(i) = aryTmp(i + 1)
-            Next i
+            For I = 0 To nD - 2
+                MyStr(I) = aryTmp(I + 1)
+            Next I
         '======== 否则，传送过来的消息格式是"CMGR"，这两者是有区别的。 ========
         Else
             ReDim MyStr(0 To nD - 1)
-            For i = 0 To nD - 1
-                MyStr(i) = aryTmp(i)
-            Next i
+            For I = 0 To nD - 1
+                MyStr(I) = aryTmp(I)
+            Next I
         End If
         
         RetSMS.ListOrRead = blIsList

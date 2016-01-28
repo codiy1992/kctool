@@ -1,17 +1,17 @@
-Attribute VB_Name = "mdlCommFuns"
+Attribute VB_Name = "mdlBaseFuns"
 Option Explicit
 
 Public Function QueryRSSI(strInput As String, iSignal As Integer, iBER As Integer) As Boolean
     
     Dim strTmp As String
-    Dim i As Integer, iLen As Integer, iTmp As Integer, iCr As Integer
+    Dim I As Integer, iLen As Integer, iTmp As Integer, iCr As Integer
     
     On Error Resume Next
     
     iCr = InStr(strInput, vbCr)
     If iCr > 0 Then
-        For i = 7 To Len(strInput)
-            strTmp = Mid(strInput, i, 1)
+        For I = 7 To Len(strInput)
+            strTmp = Mid(strInput, I, 1)
             iLen = iLen + 1
             If strTmp = "," Then
                 iTmp = Mid(strInput, 7, iLen)
@@ -19,10 +19,10 @@ Public Function QueryRSSI(strInput As String, iSignal As Integer, iBER As Intege
                 iSignal = iTmp
                 Exit For
             End If
-        Next i
-        iTmp = i
-        For i = iTmp To Len(strInput)
-            strTmp = Mid(strInput, i, 1)
+        Next I
+        iTmp = I
+        For I = iTmp To Len(strInput)
+            strTmp = Mid(strInput, I, 1)
             iLen = iLen + 1
             If strTmp = vbCr Then
                 strTmp = Mid(strInput, iTmp + 1, iLen)
@@ -33,7 +33,7 @@ Public Function QueryRSSI(strInput As String, iSignal As Integer, iBER As Intege
                     Exit For
                 End If
             End If
-        Next i
+        Next I
         strInput = Right(strInput, Len(strInput) - iCr)
         QueryRSSI = True
     Else
@@ -46,7 +46,7 @@ Public Function GB2Unicode(ByVal strGB As String) As String
 
     Dim byteA()         As Byte
     
-    Dim i               As Integer
+    Dim I               As Integer
     
     Dim strTmpUnicode   As String
     Dim strA            As String
@@ -54,26 +54,26 @@ Public Function GB2Unicode(ByVal strGB As String) As String
 
     On Error GoTo ErrorUnicode
     
-    i = LenB(strGB)
+    I = LenB(strGB)
     
-    ReDim byteA(1 To i)
+    ReDim byteA(1 To I)
     
-    For i = 1 To LenB(strGB)
-        strA = MidB(strGB, i, 1)
-        byteA(i) = AscB(strA)
-    Next i
+    For I = 1 To LenB(strGB)
+        strA = MidB(strGB, I, 1)
+        byteA(I) = AscB(strA)
+    Next I
     
     '此时已经将strGB转换为Unicode编码，保存在数组byteA()中。
     '下面需要调整顺序并以字符串的形式返回
     strTmpUnicode = ""
     
-    For i = 1 To UBound(byteA) Step 2
-        strA = Hex(byteA(i))
+    For I = 1 To UBound(byteA) Step 2
+        strA = Hex(byteA(I))
         If Len(strA) < 2 Then strA = "0" & strA
-        strB = Hex(byteA(i + 1))
+        strB = Hex(byteA(I + 1))
         If Len(strB) < 2 Then strB = "0" & strB
         strTmpUnicode = strTmpUnicode & strB & strA
-    Next i
+    Next I
     
     GB2Unicode = strTmpUnicode
     Exit Function
@@ -85,7 +85,7 @@ Public Function Unicode2GB(ByVal strUnicode As String) As String
 
     Dim byteA()     As Byte
     
-    Dim i           As Integer
+    Dim I           As Integer
     
     Dim strTmp      As String
     Dim strTmpGB    As String
@@ -93,23 +93,23 @@ Public Function Unicode2GB(ByVal strUnicode As String) As String
     
     On Error GoTo ErrUnicode2GB
     
-    i = Len(strUnicode) / 2
-    ReDim byteA(1 To i)
+    I = Len(strUnicode) / 2
+    ReDim byteA(1 To I)
     
-    For i = 1 To Len(strUnicode) / 2 Step 2
-        strTmp = Mid(strUnicode, i * 2 - 1, 2)
+    For I = 1 To Len(strUnicode) / 2 Step 2
+        strTmp = Mid(strUnicode, I * 2 - 1, 2)
         strTmp = Hex2Dec(strTmp)
-        byteA(i + 1) = strTmp
-        strTmp = Mid(strUnicode, i * 2 + 1, 2)
+        byteA(I + 1) = strTmp
+        strTmp = Mid(strUnicode, I * 2 + 1, 2)
         strTmp = Hex2Dec(strTmp)
-        byteA(i) = strTmp
-    Next i
+        byteA(I) = strTmp
+    Next I
     
     strTmpGB = ""
-    For i = 1 To UBound(byteA)
-        strTmp = byteA(i)
+    For I = 1 To UBound(byteA)
+        strTmp = byteA(I)
         strTmpGB = strTmpGB & ChrB(strTmp)
-    Next i
+    Next I
     
     Unicode2GB = strTmpGB
     Exit Function
@@ -120,7 +120,7 @@ ErrUnicode2GB:
 End Function
 
 Public Function Hex2Dec(ByVal strInput As String) As Long
-    Dim i       As Integer
+    Dim I       As Integer
     Dim j       As Integer
     Dim iLen    As Integer
     Dim iTmp    As Integer
@@ -133,19 +133,19 @@ Public Function Hex2Dec(ByVal strInput As String) As Long
     If strInput <> "" Then
         iLen = Len(strInput)
         nRet = 0
-        For i = 1 To iLen
-            iTmp = Asc(Mid(strInput, i, 1))
+        For I = 1 To iLen
+            iTmp = Asc(Mid(strInput, I, 1))
             If iTmp >= 48 And iTmp <= 57 Then               '"0" = 48, "9" = 57
-                nRet = nRet + (iTmp - 48) * 16 ^ (iLen - i)
+                nRet = nRet + (iTmp - 48) * 16 ^ (iLen - I)
             ElseIf iTmp >= 65 And iTmp <= 70 Then           '"A" = 65, "F" = 70
-                nRet = nRet + (iTmp - 55) * 16 ^ (iLen - i)
+                nRet = nRet + (iTmp - 55) * 16 ^ (iLen - I)
             ElseIf iTmp >= 97 And iTmp <= 102 Then          '"a" = 97, "f" = 102
-                nRet = nRet + (iTmp - 87) * 16 ^ (iLen - i)
+                nRet = nRet + (iTmp - 87) * 16 ^ (iLen - I)
             Else
                 nRet = 0
                 Exit For
             End If
-        Next i
+        Next I
     End If
     
     Hex2Dec = nRet
@@ -176,7 +176,7 @@ Public Function String2Array(ByVal YourStr As String, _
                              ByRef MyStr() As String, _
                              ByVal isNormal As Boolean) As Boolean
 
-    Dim i           As Long
+    Dim I           As Long
     Dim j           As Long
     Dim nUBound     As Long
     
@@ -195,11 +195,11 @@ Public Function String2Array(ByVal YourStr As String, _
     ReDim aryTr(1 To nUBound)
 
     If Not isNormal Then
-        For i = 1 To Len(YourStr)
-            strTmp = Mid(YourStr, i, 1)
+        For I = 1 To Len(YourStr)
+            strTmp = Mid(YourStr, I, 1)
             iAsc = Asc(strTmp)
             If iAsc > 122 Or iAsc < 33 Then
-                strChar = Mid(YourStr, i - j, j)
+                strChar = Mid(YourStr, I - j, j)
                 If strChar <> "" Then
                     aryTr(nUBound) = strChar
                     nUBound = nUBound + 1
@@ -209,23 +209,23 @@ Public Function String2Array(ByVal YourStr As String, _
                 j = 0
             Else
                 j = j + 1
-                If i = Len(YourStr) Then
-                    strChar = Mid(YourStr, i - j + 1, j)
+                If I = Len(YourStr) Then
+                    strChar = Mid(YourStr, I - j + 1, j)
                     aryTr(nUBound) = strChar
                 End If
             End If
-        Next i
+        Next I
         nD = nUBound
         ReDim MyStr(0 To nUBound - 1)
-        For i = 1 To nUBound
-            MyStr(i - 1) = aryTr(i)
-        Next i
+        For I = 1 To nUBound
+            MyStr(I - 1) = aryTr(I)
+        Next I
         String2Array = True
     Else
-        For i = 1 To Len(YourStr)
-            strTmp = Mid(YourStr, i, 1)
+        For I = 1 To Len(YourStr)
+            strTmp = Mid(YourStr, I, 1)
             If strTmp = charRef Then
-                strChar = Mid(YourStr, i - j, j)
+                strChar = Mid(YourStr, I - j, j)
                 If strChar <> "" Then
                     aryTr(nUBound) = strChar
                     nUBound = nUBound + 1
@@ -235,17 +235,17 @@ Public Function String2Array(ByVal YourStr As String, _
                 j = 0
             Else
                 j = j + 1
-                If i = Len(YourStr) Then
-                    strChar = Mid(YourStr, i - j + 1, j)
+                If I = Len(YourStr) Then
+                    strChar = Mid(YourStr, I - j + 1, j)
                     aryTr(nUBound) = strChar
                 End If
             End If
-        Next i
+        Next I
         nD = nUBound
         ReDim MyStr(0 To nUBound - 1)
-        For i = 1 To nUBound
-            MyStr(i - 1) = aryTr(i)
-        Next i
+        For I = 1 To nUBound
+            MyStr(I - 1) = aryTr(I)
+        Next I
         String2Array = True
     End If
 
@@ -259,7 +259,7 @@ End Function
 
 Public Function ASCII2Char(ByVal strAsc As String) As String
 
-    Dim i       As Integer
+    Dim I       As Integer
     Dim j       As Integer
     
     Dim strTmp  As String
@@ -270,18 +270,18 @@ Public Function ASCII2Char(ByVal strAsc As String) As String
     j = Len(strAsc)
     strTmpB = ""
 
-    For i = 1 To j
-        strTmpA = Mid(strAsc, i, 1)
+    For I = 1 To j
+        strTmpA = Mid(strAsc, I, 1)
         If strTmpA <> " " Then strTmpB = strTmpB & strTmpA
-    Next i
+    Next I
 
     j = Len(strTmpB)
 
     strTmp = ""
-    For i = 1 To j Step 2
-        strTmpA = Mid(strTmpB, i, 2)
+    For I = 1 To j Step 2
+        strTmpA = Mid(strTmpB, I, 2)
         strTmp = strTmp & ChrB(Hex2Dec(strTmpA))
-    Next i
+    Next I
 
     ASCII2Char = strTmp
 
