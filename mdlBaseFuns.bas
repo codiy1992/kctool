@@ -313,4 +313,3 @@ Public Function CharToAscii(ByVal strChar As String) As String
     CharToAscii = Trim(strTmp)
 
 End Function
-

@@ -19,62 +19,84 @@ Private blIsWaiting As Boolean   ' 是否需要等待下一帧数据
 Public blIsATExecing As Boolean  ' 当前AT命令是否正在执行
 
 
+Public kc   As Integer       ' 所属卡池
 Public comPort As Integer    ' 当前串口编号
+Public simIndex As Integer   ' 通道SIM卡位置编号(1-16)
 Public portErr As Integer    ' 串口错误码
 Public iWaitCnt As Integer   ' 等待数据次数
-Private iTryCnt As Integer   ' 重复尝试次数 查ICCID
+Public iTryCnt As Integer   ' 重复尝试次数 查ICCID
 
 Public Imei As String        ' IMEI号
 Private strAtTemp  As String ' AT响应数据暂存区
 Public task As task          ' 将送往该COM口的命令任务队列
 
 ' 以下成员与SIM卡相关
-Public blIsPickSms As Boolean  ' 是否拉取短信
+Public blIsNormal As Boolean  ' 是否正常
+Public blIsCheck As Boolean   ' 是否进行检查
+Public blIsSwitch As Boolean  ' 是否允许切卡
+Public blIsPickSms As Boolean ' 是否拉取短信
+Public blIsShowStat As Boolean '是否显示状态信息
 
-Public iSmsId As Integer     ' 当前正在发送的短信ID
-Public iBindId As Integer    ' 当前正在执行的绑定任务ID
-Public iQccfcCnt As Integer  ' 查询呼转设置
+Public iSmsId As Long     ' 当前正在发送的短信ID
+Public iBindId As Long    ' 当前正在执行的绑定任务ID
+Public iQccfcCnt As Long  ' 查询呼转设置
+Public iTmrCnt As Long     ' cron定时器计数
+
 
 Public Iccid As String       ' ICCID卡号
+Public OldIccid As String    ' ICCID
 Public Imsi As String        ' IMSI号
 Public Mobile As String      ' 手机号
 Public bMobile As String     ' 呼转手机号
+Public SP As String          ' 服务提供商
 
 
 Private Sub Class_Initialize()
     blIsOpen = False
     blIsWaiting = False
     blIsATExecing = False
+    blIsCheck = False
+    blIsSwitch = True
     Imei = ""
     strAtTemp = ""
     Set task = New task
     
+    blIsNormal = False
     blIsPickSms = True
+    blIsShowStat = True
     Iccid = ""
     Imsi = ""
     Mobile = ""
     bMobile = ""
 End Sub
+
 Public Function ReSet()
     ClosePort
     task.Clean
     blIsOpen = False
     blIsWaiting = False
     blIsATExecing = False
+    blIsCheck = False
+    blIsSwitch = True
     iTryCnt = 0
-    iWaitCnt = 0
+    iTmrCnt = 0
     Imei = ""
+    iWaitCnt = 0
     strAtTemp = ""
     
+    blIsNormal = False
     blIsPickSms = True
+    blIsShowStat = True
     Iccid = ""
     Imsi = ""
     Mobile = ""
     bMobile = ""
+    SP = ""
     iSmsId = 0
     iBindId = 0
     iQccfcCnt = 0
 End Function
+
 Public Function OpenPort()
     Dim ret As Long
     Dim mode As Long
@@ -140,7 +162,7 @@ Public Function WriteData(outData)
     Dim timeout As Long
     Dim iLen As Long
     Dim HexArr() As Byte
-    iWaitCnt = 0
+    'iWaitCnt = 0
     If LCase(TypeName(outData)) = "string" Then
         iLen = Str2Hex(outData, HexArr())
     ElseIf LCase(TypeName(outData)) = "byte()" Then
@@ -150,12 +172,12 @@ Public Function WriteData(outData)
     If iLen = 0 Then
         Exit Function
     End If
-     Call sio_GetWriteTimeouts(comPort, 0)
-    timeout = 1000 / sio_getbaud(comPort)  'ms /byte'
+    Call sio_GetWriteTimeouts(comPort, 0)
+    timeout = 1000 / sio_getbaud(comPort)  ' ms /byte'
     If timeout < 1 Then
         timeout = 1
     End If
-    timeout = timeout * iLen * 2             ' 256 byte;*2 for delay
+    timeout = timeout * iLen * 2 ' 256 byte;*2 for delay
     Call sio_SetWriteTimeouts(comPort, timeout)
     Call sio_write(comPort, HexArr(0), iLen)
     Call sio_SetWriteTimeouts(comPort, 0)
@@ -185,12 +207,12 @@ Public Function ReadData() As String
         For I = 0 To Top
             ReadData = ReadData & Chr(Val(buf(I)))
         Next I
+        iWaitCnt = 0
     Else
         ReadData = ""
         iWaitCnt = iWaitCnt + 1
     End If
 End Function
-
 Public Function GetData(ByRef strInput As String) As String
     If blIsWaiting = False Then
         If UCase(Left(strInput, 2)) = "AT" Then         '正常情况下的AT命令响应
@@ -248,13 +270,13 @@ Public Function AnalysisData(strInput As String, strOut As String) As String
             strOut = regExpGetFirst("(\d{15})", strInput)
         Case "AT+CCID"
             strOut = regExpGetFirst("(\d{20})", strInput)
-            If strOut = "" Then
+            If strOut = "" Or InStr(strInput, "ERROR") > 0 Then
                 strOut = "-RETRY-"
             End If
             If InStr(strInput, "ERROR") > 0 Then
                 iTryCnt = iTryCnt + 1
-                If iTryCnt > 3 Then
-                    strAT = "-AT-NO-CCID-"
+                If iTryCnt > 10 Then
+                    strOut = "-NO-CCID-"
                 End If
             End If
         Case "AT+CCFC=0,2" 'AT+CCFC=0,2\r\n+CCFC: 1,1,"+8618650346179",145,,,\r\nOK
@@ -306,21 +328,23 @@ Public Function AnalysisData(strInput As String, strOut As String) As String
     AnalysisData = strAT
 End Function
 
-Public Function sendSMS(strTo, strCnt, Optional blIsEN As Boolean)
-    strTo = GB2Unicode(strTo)
-    strCnt = GB2Unicode(strCnt)
-    task.Push ("AT+CMGF=1" & vbCrLf)          ' 短信格式选择 0:PDU 1:文本
-    task.Push ("AT+CSCS=""UCS2""" & vbCrLf)   ' 字符集选择
-    task.Push ("AT+CSCA?" & vbCrLf)           ' 自动设置短消息中心号码，只做查询即可
-    task.Push ("AT+CNMI=2,1" & vbCrLf)        ' 新消息指示格式 "+CMTI:”SM”,3"
-    If blIsEN <> True Then
-        task.Push ("AT+CSMP=17,167,0,8" & vbCrLf) ' 发送中文短信
+Public Function sendSMS(strTo, strCnt)
+    Dim iLen As Long
+    Dim PDU As String
+    If Len(strTo) < 11 Then
+        task.Push ("AT+CMGF=1" & vbCrLf)          ' 短信格式选择 0:PDU 1:文本
+        task.Push ("AT+CMGS=""" & strTo & """" & vbCrLf)
+        task.Push (strCnt & Chr(26))
     Else
-        task.Push ("AT+CSMP=17,167,0,0" & vbCrLf) ' 发送英文短信
+        iLen = SmsPDU(strTo, strCnt, PDU)
+        If iLen = 0 Or PDU = "" Then
+            Exit Function
+        End If
+        task.Push ("AT+CMGF=0" & vbCrLf)          ' 短信格式选择 0:PDU 1:文本
+        task.Push ("AT+CMGS=" & iLen & vbCr)
+        task.Push (PDU & Chr(26))
+        task.Push ("AT+CMGF=1" & vbCrLf)          ' 短信格式选择 0:PDU 1:文本
     End If
-    task.Push ("AT+CMGS=""" & strTo & """" & vbCrLf)
-    task.Push (strCnt)
-    task.Push ("--TAIL--")  ' 结束符 CTRL+Z
 End Function
 
 Public Function delSMS(iSmsIndex As Integer, Optional blDelAll As Boolean)

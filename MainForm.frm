@@ -3,332 +3,346 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form MainForm 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "卡池助手 -- by CODIY"
-   ClientHeight    =   9195
+   ClientHeight    =   7890
    ClientLeft      =   45
    ClientTop       =   375
-   ClientWidth     =   15000
+   ClientWidth     =   11340
    ForeColor       =   &H80000008&
    Icon            =   "MainForm.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   MinButton       =   0   'False
-   ScaleHeight     =   9195
-   ScaleWidth      =   15000
+   ScaleHeight     =   7890
+   ScaleWidth      =   11340
    StartUpPosition =   3  '窗口缺省
-   Begin VB.Timer TimerComCheck 
+   Begin VB.Timer TimerKcCron 
       Enabled         =   0   'False
-      Index           =   17
       Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   2280
+      Top             =   8640
    End
-   Begin VB.Timer TimerComTask 
+   Begin VB.TextBox TextDsp 
+      Height          =   3015
+      Left            =   3000
+      MultiLine       =   -1  'True
+      ScrollBars      =   2  'Vertical
+      TabIndex        =   8
+      Top             =   4800
+      Width           =   4340
+   End
+   Begin VB.TextBox TextLog 
+      Height          =   3015
+      Left            =   7400
+      MultiLine       =   -1  'True
+      ScrollBars      =   2  'Vertical
+      TabIndex        =   7
+      Top             =   4800
+      Width           =   3875
+   End
+   Begin VB.Timer TimerKcTask 
       Enabled         =   0   'False
-      Index           =   17
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   1800
+      Top             =   8640
    End
-   Begin VB.Timer TimerComRead 
+   Begin VB.Timer TimerKcRead 
       Enabled         =   0   'False
-      Index           =   17
       Interval        =   200
-      Left            =   720
-      Top             =   0
+      Left            =   2760
+      Top             =   8640
    End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   16
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
-   End
-   Begin VB.Timer TimerComTask 
-      Enabled         =   0   'False
-      Index           =   16
-      Interval        =   300
-      Left            =   0
-      Top             =   0
-   End
-   Begin VB.Timer TimerComRead 
-      Enabled         =   0   'False
-      Index           =   16
-      Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
+   Begin VB.Timer TimerComCron 
       Enabled         =   0   'False
       Index           =   15
       Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   14
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   13
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   12
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   11
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   10
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   9
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   8
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   7
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   6
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   5
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   4
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   3
+      Interval        =   3000
+      Left            =   4680
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   2
+      Interval        =   3000
+      Left            =   3240
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   1
+      Interval        =   3000
+      Left            =   1920
+      Top             =   9840
+   End
+   Begin VB.Timer TimerComCron 
+      Enabled         =   0   'False
+      Index           =   0
+      Interval        =   3000
+      Left            =   600
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   15
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   15
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   14
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   14
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   14
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   13
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   13
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   13
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   12
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   12
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   12
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   11
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   11
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   11
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   10
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   10
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   10
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   9
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   9
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   9
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   8
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   8
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   8
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   7
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   7
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   7
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   6
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   6
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   6
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   5
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   5
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   5
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   4
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   4
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   4
       Interval        =   200
-      Left            =   720
-      Top             =   0
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   3
-      Interval        =   3000
-      Left            =   360
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
       Index           =   3
       Interval        =   300
-      Left            =   0
-      Top             =   0
+      Left            =   4320
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
       Index           =   3
       Interval        =   200
-      Left            =   720
-      Top             =   0
+      Left            =   5040
+      Top             =   9840
    End
    Begin VB.Timer TimerComRead 
       Enabled         =   0   'False
@@ -358,31 +372,11 @@ Begin VB.Form MainForm
       Left            =   2880
       Top             =   9840
    End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   2
-      Interval        =   3000
-      Left            =   3240
-      Top             =   9840
-   End
-   Begin VB.Timer Timer1 
+   Begin VB.Timer TimerInit 
       Enabled         =   0   'False
       Interval        =   100
       Left            =   240
-      Top             =   9360
-   End
-   Begin VB.Timer TimerPickDBTask 
-      Enabled         =   0   'False
-      Interval        =   5000
-      Left            =   960
-      Top             =   9360
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   1
-      Interval        =   3000
-      Left            =   1920
-      Top             =   9840
+      Top             =   8640
    End
    Begin VB.Timer TimerComTask 
       Enabled         =   0   'False
@@ -398,90 +392,92 @@ Begin VB.Form MainForm
       Left            =   240
       Top             =   9840
    End
-   Begin VB.Frame Frame3 
-      Caption         =   "当前调试串口(无)"
-      Height          =   9015
-      Left            =   15000
-      TabIndex        =   3
-      Top             =   120
-      Width           =   4215
-      Begin VB.TextBox TextLog 
-         Height          =   4455
-         Left            =   120
-         MultiLine       =   -1  'True
-         ScrollBars      =   2  'Vertical
-         TabIndex        =   7
-         Top             =   240
-         Width           =   3975
-      End
-      Begin VB.TextBox TextRec 
-         Height          =   3855
-         Left            =   120
-         MultiLine       =   -1  'True
-         ScrollBars      =   2  'Vertical
-         TabIndex        =   4
-         Top             =   5040
-         Width           =   3975
-      End
-      Begin VB.Label Label1 
-         Caption         =   "收到的短信:"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   8
-         Top             =   4800
-         Width           =   1095
-      End
-   End
    Begin VB.Frame Frame2 
       Caption         =   "操作按钮"
-      Height          =   975
+      Height          =   3255
       Left            =   120
       TabIndex        =   1
-      Top             =   8160
-      Width           =   14775
-      Begin VB.CommandButton CommandKcSwitch 
-         Caption         =   "切卡"
+      Top             =   4560
+      Width           =   2775
+      Begin VB.CommandButton Command1 
+         Caption         =   "回显已开"
          Height          =   375
-         Left            =   9960
+         Left            =   120
+         TabIndex        =   17
+         Top             =   2280
+         Width           =   1215
+      End
+      Begin VB.CommandButton CommandSwitchIndex 
+         Caption         =   "指定切卡"
+         Height          =   375
+         Left            =   120
+         TabIndex        =   16
+         Top             =   840
+         Width           =   1215
+      End
+      Begin VB.CommandButton CommandDspInfo 
+         Caption         =   "显示信息"
+         Height          =   375
+         Left            =   120
+         TabIndex        =   15
+         Top             =   1800
+         Width           =   1215
+      End
+      Begin VB.CommandButton CommandGetCCFC 
+         Caption         =   "获取呼转"
+         Height          =   375
+         Left            =   1440
+         TabIndex        =   14
+         Top             =   1800
+         Width           =   1215
+      End
+      Begin VB.CommandButton CommandSwitch 
+         Caption         =   "自动切卡"
+         Height          =   375
+         Left            =   120
+         TabIndex        =   13
+         Top             =   1320
+         Width           =   1215
+      End
+      Begin VB.CommandButton CommandClnTextLog 
+         Caption         =   "清空AT记录"
+         Height          =   375
+         Left            =   1440
+         TabIndex        =   12
+         Top             =   2760
+         Width           =   1215
+      End
+      Begin VB.CommandButton CommandClnTextDsp 
+         Caption         =   "清空回显"
+         Height          =   375
+         Left            =   120
          TabIndex        =   11
-         Top             =   360
-         Width           =   1335
+         Top             =   2760
+         Width           =   1215
       End
-      Begin VB.Timer TimerKcRead 
-         Enabled         =   0   'False
-         Interval        =   200
-         Left            =   8880
-         Top             =   360
-      End
-      Begin VB.Timer TimerKcTask 
-         Enabled         =   0   'False
-         Interval        =   300
-         Left            =   7560
-         Top             =   240
+      Begin VB.CommandButton CommandKcSwitch 
+         Caption         =   "切下一排"
+         Height          =   375
+         Left            =   1440
+         TabIndex        =   6
+         Top             =   840
+         Width           =   1215
       End
       Begin VB.CommandButton CommandKcReSet 
          Caption         =   "卡池重置"
          Height          =   375
-         Left            =   11400
-         TabIndex        =   10
-         Top             =   360
-         Width           =   1335
-      End
-      Begin VB.CommandButton CommandShow 
-         Caption         =   "数据窗口"
-         Height          =   375
-         Left            =   12840
-         TabIndex        =   9
-         Top             =   360
-         Width           =   1575
+         Left            =   1440
+         TabIndex        =   5
+         Top             =   1320
+         Width           =   1215
       End
       Begin VB.CommandButton CommandCloseAll 
          Caption         =   "关闭所有"
          Height          =   375
-         Left            =   2040
-         TabIndex        =   5
+         Left            =   1440
+         TabIndex        =   3
          Top             =   360
-         Width           =   1455
+         Width           =   1215
       End
       Begin VB.CommandButton CommandStartAll 
          Caption         =   "搜索设备"
@@ -489,31 +485,24 @@ Begin VB.Form MainForm
          Left            =   120
          TabIndex        =   2
          Top             =   360
-         Width           =   1815
+         Width           =   1215
       End
-   End
-   Begin VB.Timer TimerComCheck 
-      Enabled         =   0   'False
-      Index           =   0
-      Interval        =   3000
-      Left            =   600
-      Top             =   9840
    End
    Begin VB.Frame Frame1 
       Caption         =   "串口列表"
-      Height          =   7935
+      Height          =   4335
       Left            =   120
       TabIndex        =   0
       Top             =   120
-      Width           =   14775
+      Width           =   11150
       Begin MSComctlLib.ListView ListView 
-         Height          =   7545
+         Height          =   3945
          Left            =   120
-         TabIndex        =   6
+         TabIndex        =   4
          Top             =   240
-         Width           =   14505
-         _ExtentX        =   25585
-         _ExtentY        =   13309
+         Width           =   10885
+         _ExtentX        =   19209
+         _ExtentY        =   6959
          LabelEdit       =   1
          LabelWrap       =   -1  'True
          HideSelection   =   -1  'True
@@ -536,30 +525,49 @@ Begin VB.Form MainForm
          NumItems        =   0
       End
    End
+   Begin VB.Label Label1 
+      Caption         =   "AT指令记录:"
+      Height          =   255
+      Left            =   7680
+      TabIndex        =   10
+      Top             =   4560
+      Width           =   2055
+   End
+   Begin VB.Label Label2 
+      Caption         =   "数据回显窗口:"
+      Height          =   255
+      Left            =   3120
+      TabIndex        =   9
+      Top             =   4560
+      Width           =   1215
+   End
    Begin VB.Menu MenuList 
       Caption         =   "操作"
       Visible         =   0   'False
       Begin VB.Menu MENU_OPEN 
          Caption         =   "开启本串口"
-         Shortcut        =   ^O
       End
       Begin VB.Menu MENU_CLOSE 
          Caption         =   "关闭本串口"
-         Shortcut        =   ^C
          Visible         =   0   'False
       End
       Begin VB.Menu MENU_STOP 
          Caption         =   "暂停本串口"
-         Shortcut        =   ^S
          Visible         =   0   'False
       End
       Begin VB.Menu MENU_START 
          Caption         =   "恢复本串口"
          Visible         =   0   'False
       End
+      Begin VB.Menu MENU_INFO 
+         Caption         =   "查看串口信息"
+      End
+      Begin VB.Menu MENU_CCFC 
+         Caption         =   "查呼转号码"
+         Visible         =   0   'False
+      End
       Begin VB.Menu MENU_DEBUG 
          Caption         =   "查看数据流"
-         Shortcut        =   ^D
       End
    End
 End
@@ -568,161 +576,41 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Sub CommandKcReSet_Click()
-    Kc.task.Push ("KC-RESET")
-    'Kc.task.Push ("AT+NEXT00" & vbCrLf)
-     'kc.task.Push ("AT+NEXT11" & vbCrLf)
-    'Kc.task.Push ("AT+NEXT00" & vbCrLf)
-    'kc.task.Push ("AT+SWIT16-0005" & vbCrLf)
-    TimerKcTask.Enabled = True
-End Sub
+' 程序异常修复，数据库数据修复
 
-Private Sub CommandKcSwitch_Click()
-    Kc.task.Push ("KC-NEXT-A")
-    TimerKcTask.Enabled = True
-End Sub
-
-Private Sub TimerKcTask_Timer()
-    Dim strAT As String
-    Dim blCanSwitch As Boolean
-    Dim cIdx As Long
-    blCanSwitch = True
-    strAT = Kc.task.Top
-    If strAT <> Empty Then
-        If Kc.blIsOpen = True Then
-            Select Case strAT
-                Case "KC-NEXT" ' 挨个切换（也切全部）
-                Case "KC-NEXT-A" ' 一起切换
-                    If IsComEmpty = False Then
-                        For cIdx = 0 To UBound(Com())
-                            If Com(cIdx).blIsOpen = True Then
-                                blCanSwitch = False
-                                TimerComTask(cIdx).Enabled = True
-                            End If
-                            Com(cIdx).task.Push ("--CLOSE--")
-                        Next cIdx
-                        If blCanSwitch = False Then
-                            Exit Sub
-                        End If
-                    End If
-                    strAT = Kc.task.Pop
-                    Kc.WriteData ("AT+NEXT11" & vbCrLf)
-                Case "KC-RESET"
-                    If IsComEmpty = False Then
-                        For cIdx = 0 To UBound(Com())
-                            If Com(cIdx).blIsOpen = True Then
-                                blCanSwitch = False
-                                TimerComTask(cIdx).Enabled = True
-                            End If
-                            Com(cIdx).task.Push ("--CLOSE--")
-                        Next cIdx
-                        If blCanSwitch = False Then
-                            Exit Sub
-                        End If
-                    End If
-                    strAT = Kc.task.Pop
-                    Kc.WriteData ("AT+NEXT00" & vbCrLf)
-                Case Else
-                    strAT = Kc.task.Pop
-                    Kc.WriteData (strAT)
-            End Select
-        End If
+Private Sub Command1_Click()
+    If g_blPrint = True Then
+        g_blPrint = False
+        Command1.Caption = "回显已关"
     Else
-       TimerKcTask.Enabled = False
+        g_blPrint = True
+        Command1.Caption = "回显已开"
     End If
 End Sub
 
-Private Sub TimerKcRead_Timer()
-    Dim strAtData As String
-    Dim tmpBuf() As Byte, strTmp As String
-    Dim strOut As String
-    Dim strAT As String
-    Dim smsArr() As SMSDef
-    strTmp = Kc.ReadData
-    If Kc.iWaitCnt >= 10 Then
-        Kc.iWaitCnt = 0
-        Kc.blIsATExecing = False
-    End If
-    If strTmp = "" Then 'Com(cIdx).blIsATExecing = False Or
-        Exit Sub
-    End If
-End Sub
-
+'1、初始化时，判断串口是卡池还是sim通道
+'2、切卡时候校验，本次切卡与上次是否为同一张卡(空卡和最后一张)
+'3、卡池与sim通道配对信息
+'4、多卡池支持
+'5、对卡类型的支持
 Private Sub Form_Load()
-    MainForm.Width = 15090
     ' 初始化数据
     g_iDebugIndex = -1
-    g_show = False
+    g_blPrint = True
     ' 初始化列表视图控件
     With ListView 'ListView初始化
          .View = 3 ' 列表显示方式
          .ColumnHeaders.Add , , "序号", 600         ' 0
          .ColumnHeaders.Add , , "串口", 800         ' 1
-         .ColumnHeaders.Add , , "状态", 1600        ' 2
-         .ColumnHeaders.Add , , "手机号码", 1500    ' 3
-         .ColumnHeaders.Add , , "ICCID号", 2300     ' 4
+         .ColumnHeaders.Add , , "状态", 3200        ' 2
+         .ColumnHeaders.Add , , "ICCID号", 2300     ' 3
+         .ColumnHeaders.Add , , "手机号码", 1400    ' 4
          .ColumnHeaders.Add , , "IMEI号", 1800      ' 5
-         .ColumnHeaders.Add , , "IMSI号", 1800      ' 6
-         .ColumnHeaders.Add , , "呼转号码", 1500    ' 7
-         .ColumnHeaders.Add , , "信号", 1000         ' 8
-         .ColumnHeaders.Add , , "网络", 1600    ' 9
+         '.ColumnHeaders.Add , , "信号", 1700         ' 6
+         .ColumnHeaders.Add , , "占用", 800, lvwColumnCenter   ' 7
     End With
-    
-    TimerPickDBTask.Enabled = True
-    
-    Set Kc = New Com
-    Kc.comPort = 19
-    Kc.OpenPort
-    If Kc.blIsOpen = True Then
-        TimerKcTask.Enabled = True
-        TimerKcRead.Enabled = True
-        Kc.task.Push ("AT+CWSIM" & vbCr)
-    End If
 End Sub
 
-Private Sub CommandStartAll_Click()
-    Dim cIdx As Integer
-    If IsComEmpty = False Then
-        For cIdx = 0 To UBound(Com())
-            If Com(cIdx).blIsOpen = False Then
-                Com(cIdx).OpenPort
-                If Com(cIdx).blIsOpen = False Then
-                    ListView.ListItems(cIdx + 1).SubItems(2) = ComErr(Com(cIdx).portErr)
-                Else
-                    ListView.ListItems(cIdx + 1).SubItems(2) = "初始化中(0)..."
-                    Com(cIdx).task.Push ("ATE1" & vbCrLf)
-                    Com(cIdx).task.Push ("AT+CFUN=1,1" & vbCrLf)
-                    ' 开启串口命令任务定时器
-                    TimerComTask(cIdx).Enabled = True
-                    TimerComRead(cIdx).Enabled = True
-                End If
-            End If
-        Next cIdx
-    ElseIf Timer1.Enabled = False Then
-        ' 检测在线串口
-        CommandStartAll.Caption = "搜索中..."
-        Timer1.Enabled = True
-    End If
-End Sub
-Private Sub CommandCloseAll_Click()
-    ' 关闭串口
-    If IsComEmpty = False Then
-        For cIdx = 0 To UBound(Com())
-            ' 将停止命令推送入命令执行队列
-            Com(cIdx).task.Push ("--CLOSE--")
-            TimerComTask(cIdx).Enabled = True
-        Next cIdx
-    End If
-End Sub
-Private Sub CommandShow_Click()
-    If g_show = False Then
-        g_show = True
-        MainForm.Width = 19400
-    Else
-        g_show = False
-        MainForm.Width = 15090
-    End If
-End Sub
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     Select Case UnloadMode
         Case vbFormControlMenu          ' 0 用户从窗体上的“控件”菜单中选择“关闭”指令。
@@ -735,9 +623,9 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     If IsComEmpty = False Then
         If GetAllIccid <> "''" Then
             If MsgBox("请先关闭全部串口后再操作", vbYesNo + vbDefaultButton1) = vbYes Then
-                For cIdx = 0 To UBound(Com())
+                For cIdx = 0 To UBound(com())
                     ' 将停止命令推送入命令执行队列
-                    Com(cIdx).task.Push ("--CLOSE--")
+                    com(cIdx).task.Push ("--CLOSE--")
                     TimerComTask(cIdx).Enabled = True
                 Next cIdx
             End If
@@ -746,123 +634,617 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     End If
 End Sub
 
-Private Sub Timer1_Timer()
+' ====================================  操作按钮  ====================================================
+Private Sub CommandStartAll_Click()
+    Dim cIdx As Integer
+    If IsComEmpty = False Then
+        For cIdx = 0 To UBound(com())
+            OpenCom (cIdx)
+        Next cIdx
+        kc.blCanSwitch = True
+    ElseIf TimerInit.Enabled = False Then
+        ' 检测在线串口
+        CommandStartAll.Caption = "搜索中..."
+        TimerInit.Enabled = True
+    End If
+End Sub
+
+Private Sub CommandCloseAll_Click()
+    ' 关闭串口
+    If IsComEmpty = False Then
+        For cIdx = 0 To UBound(com())
+           ' 将停止命令推送入命令执行队列
+            If com(cIdx).task.Top <> "--CLOSE--" Then
+                com(cIdx).task.Push ("--CLOSE--")
+                TimerComTask(cIdx).Enabled = True
+            End If
+        Next cIdx
+    End If
+End Sub
+
+Private Sub CommandClnTextDsp_Click()
+    TextDsp.Text = ""
+End Sub
+
+Private Sub CommandClnTextLog_Click()
+    TextLog.Text = ""
+End Sub
+
+Private Sub CommandDspInfo_Click()
+    If IsComEmpty = False Then
+        For cIdx = 0 To UBound(com())
+            If com(cIdx).blIsOpen = False Then
+                TextDsp.Text = TextDsp.Text & "      时间: " & Now() & vbCrLf & _
+                           "     COM" & com(cIdx).comPort & ": 未开启" & vbCrLf & _
+                           "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+            Else
+                TextDsp.Text = TextDsp.Text & "      时间: " & Now() & vbCrLf & _
+                           "     COM" & com(cIdx).comPort & ": 已开启" & vbCrLf & _
+                           "  手机号码: " & com(cIdx).Mobile & vbCrLf & _
+                           "   ICCID号: " & com(cIdx).Iccid & vbCrLf & _
+                           "  IMEI串号: " & com(cIdx).Imei & vbCrLf & _
+                           "  IMSI串号: " & com(cIdx).Imsi & vbCrLf & _
+                           "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+            End If
+        Next cIdx
+    End If
+    TextDsp.SelStart = Len(TextDsp.Text)
+End Sub
+
+Private Sub CommandGetCCFC_Click()
+    If IsComEmpty = False Then
+        For cIdx = 0 To UBound(com())
+            com(cIdx).task.Push ("AT+CCFC=0,2" & vbCrLf)
+            TimerComTask(cIdx).Enabled = True
+        Next cIdx
+    End If
+End Sub
+
+Private Sub CommandKcReSet_Click()
+    If IsComEmpty = False Then
+        If DB.IsUsing(GetAllIccid) = False Then
+            kc.task.Push ("--KC-RESET--")
+            TimerKcTask.Enabled = True
+        End If
+    End If
+End Sub
+
+Private Sub CommandKcSwitch_Click()
+    If IsComEmpty = False Then
+        If DB.IsUsing(GetAllIccid) = False Then
+            kc.task.Push ("--KC-NEXT-A--")
+            TimerKcTask.Enabled = True
+        End If
+    End If
+End Sub
+
+Private Sub CommandSwitch_Click()
+    If IsComEmpty = True Then
+        Exit Sub
+    End If
+    If kc.blCanSwitch = True Then
+        kc.blCanSwitch = False
+    Else
+        kc.blCanSwitch = True
+    End If
+End Sub
+
+Private Sub CommandSwitchIndex_Click()
+    Dim simIndex
+    simIndex = InputBox("sim卡位置(1-16)", "输入切换位置", 1)
+    simIndex = Val(simIndex)
+    If IsComEmpty = True Then
+        Exit Sub
+    End If
+    If simIndex < 1 Or simIndex > 16 Then
+        MsgBox "请输入1-16之间的数字"
+        Exit Sub
+    End If
+    If DB.IsUsing(GetAllIccid) = False Then
+        kc.task.Push ("--KC-INDEX-A-" & Format(simIndex, "00"))
+        TimerKcTask.Enabled = True
+    End If
+End Sub
+
+Private Sub TimerKcCron_Timer()
+    Dim I, j As Integer
+    Dim cIdx As Integer
+    Dim cntA As Integer, cntB As Integer
+    Dim strIccid As String
+    Dim execArr
+    kc.iTmrCnt = kc.iTmrCnt + 1
+    If kc.iTmrCnt Mod 60 = 0 Then
+            kc.iTmrCnt = 0
+    End If
+    
+    Frame1.Caption = "卡池 - 自动切卡[" & kc.iTmrCnt * 3 & "/180]:" & kc.blCanSwitch & "    (" & Now() & ")"
+    If IsComEmpty = True Then
+        Exit Sub
+    End If
+    
+    ' 自动切卡任务
+    If kc.blCanSwitch = True Then
+        If kc.iTmrCnt = 0 Then
+            If DB.IsUsing(GetAllIccid) = False Then
+                ' 切卡
+                If InStr(kc.task.Top, "--KC-INDEX-AS-") > 0 Then
+                Else
+                    kc.task.Push ("--KC-INDEX-AS-" & Format((kc.rowIndex Mod 10) + 1, "00"))
+                    TimerKcTask.Enabled = True
+                End If
+            End If
+        End If
+    End If
+    
+    If kc.iTmrCnt Mod 2 = 0 Then
+        Exit Sub
+    End If
+    ' 6秒重置超时sim卡使用状态
+    DB.setUseTimeOut
+    ' 执行切卡任务
+    If kc.blIsSwitching = False Then
+        execArr = DB.GetSwitchCard(strIccid)
+        If execArr <> "" Then
+            Dim simIndex As Integer
+            simIndex = Val(Mid(execArr, 5, 2))
+            If simIndex = kc.rowIndex Then
+                DB.SetCardCanUse (strIccid)
+            Else
+                kc.blIsSwitching = True
+                kc.task.Push ("--KC-INDEX-ASU-" & Format(simIndex, "00"))
+                TimerKcTask.Enabled = True
+            End If
+        End If
+    End If
+    
+    ' 执行绑定无条件呼转任务
+    execArr = DB.NotExecBind(GetAllIccid)
+    If LCase(TypeName(execArr)) = "string()" Then
+        cntA = UBound(execArr) + 1
+        For cIdx = 0 To UBound(com())
+            For I = 0 To UBound(execArr)
+                If execArr(I, 0) = com(cIdx).Iccid Then
+                    com(cIdx).iBindId = Val(execArr(I, 1))
+                    If execArr(I, 2) <> "" Then
+                        com(cIdx).bindMobile (execArr(I, 2))
+                    Else
+                        com(cIdx).unBindMobile
+                    End If
+                End If
+                TimerComTask(cIdx).Enabled = True
+            Next I
+        Next cIdx
+    End If
+    
+    ' 执行发送短信任务
+    execArr = DB.NotSendedSMS(GetAllIccid(True))
+    If LCase(TypeName(execArr)) = "string()" Then
+        cntB = UBound(execArr) + 1
+        For cIdx = 0 To UBound(com())
+            For I = 0 To UBound(execArr)
+                If com(cIdx).Iccid = execArr(I, 0) Then
+                    com(cIdx).iSmsId = Val(execArr(I, 1))
+                    com(cIdx).sendSMS execArr(I, 2), execArr(I, 3)
+                    TimerComTask(cIdx).Enabled = True
+                End If
+            Next I
+        Next cIdx
+    End If
+End Sub
+'==============================================  卡池控制模块 ==================================================================
+Private Sub TimerKcTask_Timer()
+    Dim strAT As String
+    Dim blCanSwitch As Boolean
+    Dim cIdx As Long
+    blCanSwitch = True
+    
+    If kc.blIsATExecing = True Then
+        Exit Sub
+    End If
+    
+    strAT = kc.task.Top
+    If strAT <> Empty Then
+        If kc.blIsOpen = True Then
+            Select Case strAT
+                Case "--KC-NEXT-A--" ' 切换到下一张卡(全部通道)
+                    If IsComEmpty = False Then
+                        For cIdx = 0 To UBound(com())
+                            If com(cIdx).blIsOpen = True And com(cIdx).blIsNormal = True Then
+                                blCanSwitch = False
+                                com(cIdx).task.Push ("--CLOSE--")
+                                TimerComTask(cIdx).Enabled = True
+                            End If
+                        Next cIdx
+                        If blCanSwitch = False Then
+                            Exit Sub
+                        End If
+                    End If
+                    kc.blIsATExecing = True
+                    kc.WriteData ("AT+NEXT11" & vbCrLf)
+                Case "--KC-NEXT-AS--" ' 切换到下一张卡(全部通道)
+                    If IsComEmpty = False Then
+                        For cIdx = 0 To UBound(com())
+                            If com(cIdx).blIsOpen = True And com(cIdx).blIsNormal = True Then
+                                blCanSwitch = False
+                                com(cIdx).task.Push ("--CLOSE--")
+                                TimerComTask(cIdx).Enabled = True
+                            End If
+                        Next cIdx
+                        If blCanSwitch = False Then
+                            Exit Sub
+                        End If
+                    End If
+                    kc.blIsATExecing = True
+                    kc.WriteData ("AT+NEXT11" & vbCrLf)
+                Case "--KC-RESET--" ' 卡池重置(全部通道)
+                    If IsComEmpty = False Then
+                        For cIdx = 0 To UBound(com())
+                            If com(cIdx).blIsOpen = True And com(cIdx).blIsNormal = True Then
+                                blCanSwitch = False
+                            End If
+                            If com(cIdx).task.Top <> "--CLOSE--" Then
+                                com(cIdx).task.Push ("--CLOSE--")
+                            End If
+                            TimerComTask(cIdx).Enabled = True
+                        Next cIdx
+                        If blCanSwitch = False Then
+                            Exit Sub
+                        End If
+                    End If
+                    kc.blIsATExecing = True
+                    kc.WriteData ("AT+NEXT00" & vbCrLf)
+                Case Else
+                    If InStr(strAT, "--KC-INDEX-A") > 0 Then ' 指定切换到某张卡(全部通道)
+                        If IsComEmpty = False Then
+                            For cIdx = 0 To UBound(com())
+                                If com(cIdx).blIsOpen = True And com(cIdx).blIsNormal = True Then
+                                    blCanSwitch = False
+                                    If com(cIdx).task.Top <> "--CLOSE--" Then
+                                        com(cIdx).task.Push ("--CLOSE--")
+                                    End If
+                                    TimerComTask(cIdx).Enabled = True
+                                End If
+                            Next cIdx
+                            If blCanSwitch = False Then
+                                Exit Sub
+                            End If
+                        End If
+                        kc.blIsATExecing = True
+                        kc.WriteData ("AT+SWIT00-00" & Right(strAT, 2) & vbCrLf)
+                    Else
+                        kc.blIsATExecing = True
+                        kc.WriteData (strAT)
+                    End If
+            End Select
+        End If
+    Else
+       TimerKcTask.Enabled = False
+    End If
+End Sub
+
+Private Sub TimerKcRead_Timer()
+    Dim strTmp As String
+    Dim strAT As String
+    Dim cIdx As Integer
+    Dim simIndex As Integer
+    
+    strTmp = kc.ReadData
+    
+    If kc.iWaitCnt >= 10 Then
+        kc.iWaitCnt = 0
+        kc.blIsATExecing = False
+    End If
+    If strTmp = "" Or kc.blIsATExecing = False Then 'Com(cIdx).blIsATExecing = False Or
+        Exit Sub
+    End If
+    
+    strAT = kc.task.Top
+    strTmp = kc.GetData(strTmp)
+    
+    If InStr(strTmp, "OK") > 0 Then
+        Select Case strAT
+            Case "--KC-NEXT-A--"
+                kc.iNullCnt = 0
+                If IsComEmpty = False Then
+                    For cIdx = 0 To UBound(com())
+                        com(cIdx).simIndex = (com(cIdx).simIndex Mod 16) + 1
+                    Next cIdx
+                    If g_blPrint = True Then
+                    TextDsp.Text = TextDsp.Text & "      时间: " & Now() & vbCrLf & _
+                           "  卡池切卡: 成功 【切至：" & com(0).simIndex & "】" & vbCrLf & _
+                           "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+                    End If
+                End If
+                
+            Case "--KC-NEXT-AS--"
+                kc.iNullCnt = 0
+                If IsComEmpty = False Then
+                    For cIdx = 0 To UBound(com())
+                        com(cIdx).simIndex = (com(cIdx).simIndex Mod 16) + 1
+                        OpenCom (cIdx)
+                    Next cIdx
+                    If g_blPrint = True Then
+                    TextDsp.Text = TextDsp.Text & "      时间: " & Now() & vbCrLf & _
+                           "  卡池切卡: 成功 【切至：" & com(0).simIndex & "】" & vbCrLf & _
+                           "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+                    End If
+                End If
+                
+            Case "AT+NEXT11" & vbCrLf ' 卡池全部切换成功
+                kc.iNullCnt = 0
+                If IsComEmpty = False Then
+                    For cIdx = 0 To UBound(com())
+                        com(cIdx).simIndex = (com(cIdx).simIndex Mod 16) + 1
+                        OpenCom (cIdx)
+                    Next cIdx
+                End If
+                
+            Case "--KC-RESET--"
+                kc.iNullCnt = 0
+                If IsComEmpty = False Then
+                    For cIdx = 0 To UBound(com())
+                        com(cIdx).simIndex = 1
+                    Next cIdx
+                    kc.rowIndex = 1
+                    If g_blPrint = True Then
+                    TextDsp.Text = TextDsp.Text & "      时间: " & Now() & vbCrLf & _
+                           "  卡池重置: 成功" & vbCrLf & _
+                           "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+                    End If
+                    TimerKcCron.Enabled = True
+                End If
+                
+            Case "AT+NEXT00" & vbCrLf ' 卡池重置成功
+                kc.iNullCnt = 0
+                If IsComEmpty = False Then
+                    For cIdx = 0 To UBound(com())
+                        com(cIdx).simIndex = 1
+                        OpenCom (cIdx)
+                    Next cIdx
+                    
+                End If
+                kc.rowIndex = 1
+            Case "AT+CWSIM" & vbCr   ' 与卡池握手成功
+                'Kc.task.Push ("AT+NEXT00" & vbCrLf)
+                kc.task.Push ("--KC-RESET--")
+                TimerKcTask.Enabled = True
+                
+            Case Else
+                If InStr(strAT, "AT+NEXT11-") > 0 Then '"AT+NEXT11-06" & vbCrLf
+                    cIdx = Int(Left(Right(strAT, 4), 2)) - 1
+                    com(cIdx).simIndex = com(cIdx).simIndex + 1
+                    OpenCom (cIdx)
+                    
+                End If
+                
+                ' 切换到指定位置(全部通道)
+                If InStr(strAT, "--KC-INDEX-A-") > 0 Then
+                    kc.iNullCnt = 0
+                    If IsComEmpty = False Then
+                        For cIdx = 0 To UBound(com())
+                            com(cIdx).simIndex = Val(Right(strAT, 2))
+                        Next cIdx
+                    End If
+                    kc.rowIndex = Val(Right(strAT, 2))
+                    kc.blIsSwitching = False
+                    If g_blPrint = True Then
+                    TextDsp.Text = TextDsp.Text & "      时间: " & Now() & vbCrLf & _
+                           "  卡池切卡: 成功 【切至：" & Val(Right(strAT, 2)) & "】" & vbCrLf & _
+                           "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+                    End If
+                    
+                End If
+                ' 切换到指定位置(全部通道),
+                If InStr(strAT, "--KC-INDEX-AS-") > 0 Then
+                    kc.iNullCnt = 0
+                    If IsComEmpty = False Then
+                        For cIdx = 0 To UBound(com())
+                            com(cIdx).simIndex = Val(Right(strAT, 2))
+                            OpenCom (cIdx)
+                        Next cIdx
+                    End If
+                    kc.rowIndex = Val(Right(strAT, 2))
+                    kc.blIsSwitching = False
+                    If g_blPrint = True Then
+                    TextDsp.Text = TextDsp.Text & "      时间: " & Now() & vbCrLf & _
+                           "  卡池切卡: 成功 【切至：" & Val(Right(strAT, 2)) & "】" & vbCrLf & _
+                           "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+                    End If
+                End If
+                ' 切换到指定位置(全部通道)
+                If InStr(strAT, "--KC-INDEX-ASU-") > 0 Then
+                    kc.iNullCnt = 0
+                    If IsComEmpty = False Then
+                        For cIdx = 0 To UBound(com())
+                            com(cIdx).simIndex = Val(Right(strAT, 2))
+                            OpenCom (cIdx)
+                        Next cIdx
+                    End If
+                    kc.rowIndex = Val(Right(strAT, 2))
+                    kc.blIsSwitching = False
+                    If g_blPrint = True Then
+                    TextDsp.Text = TextDsp.Text & "      时间: " & Now() & vbCrLf & _
+                           "  卡池切卡: 成功 【切至：" & Val(Right(strAT, 2)) & "】" & vbCrLf & _
+                           "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+                    End If
+                End If
+                
+                If InStr(strAT, "AT+SWIT00-") > 0 Then
+                    kc.iNullCnt = 0
+                    If IsComEmpty = False Then
+                        For cIdx = 0 To UBound(com())
+                            com(cIdx).simIndex = Val(Left(Right(strAT, 4), 2))
+                            OpenCom (cIdx)
+                        Next cIdx
+                    End If
+                End If
+                
+                ' 切换到指定位置(某通道)
+                If InStr(strAT, "AT+SWIT") > 0 And Mid(strAT, 8, 2) <> "00" Then
+                    kc.iNullCnt = 0
+                    cIdx = Val(Mid(strAT, 8, 2)) - 1
+                    com(cIdx).simIndex = Val(Left(Right(strAT, 4), 2))
+                    'OpenCom (cIdx)
+                End If
+                
+        End Select
+        strAT = kc.task.Pop
+        kc.blIsATExecing = False
+    Else
+        kc.blIsATExecing = False
+    End If
+    
+End Sub
+
+Private Sub TimerInit_Timer()
     Dim I As Integer
     Dim comport_use() As String
-    Call comportScan(comport_use())
+    
+    ' 卡池
+    Set kc = New kc
+    kc.index = 1
+    kc.comPort = 36
+    kc.OpenPort
+    If kc.blIsOpen = True Then
+        TimerKcTask.Enabled = True
+        TimerKcRead.Enabled = True
+        kc.task.Push ("AT+CWSIM" & vbCr)
+    End If
+    
+    Call comportScan(36, comport_use())
     If comport_use(0) <> "" Then
-        ReDim Com(UBound(comport_use()))
+        ReDim com(UBound(comport_use()))
         For I = 0 To UBound(comport_use())
             Set LV = ListView.ListItems.Add(I + 1, , I + 1)
             LV.SubItems(1) = "COM" & comport_use(I)
-            Set Com(I) = New Com
-            Com(I).comPort = comport_use(I)
+            Set com(I) = New com
+            com(I).comPort = comport_use(I)
+            com(I).simIndex = 1
+            com(I).kc = kc.index
             LV.SubItems(2) = "未开启"
         Next I
         CommandStartAll.Caption = "开启所有"
     Else
         CommandStartAll.Caption = "无可用设备"
     End If
-    Timer1.Enabled = False
+    TimerInit.Enabled = False
 End Sub
 
-
 '=========================================================================================================================
-'                                                       最华丽的分割线
-'=========================================================================================================================
-
-
-Private Sub TimerComCheck_Timer(cIdx As Integer)
-    Dim exec As Integer, pick As Integer
-    If Com(cIdx).blIsATExecing = True Then
-        exec = 1
-    End If
-    If Com(cIdx).blIsPickSms = True Then
-        pick = 1
-    End If
-    ' 如果正在发短信或者设置呼转,则不往任务队列推送新的命令任务
-    If Com(cIdx).iSmsId > 0 Or Com(cIdx).iBindId > 0 Then
-        ListView.ListItems(cIdx + 1).SubItems(2) = "[" & Com(cIdx).iSmsId & "|" & Com(cIdx).iBindId & "]"
-        Exit Sub
+Private Sub TimerComCron_Timer(cIdx As Integer)
+    
+    com(cIdx).iTmrCnt = com(cIdx).iTmrCnt + 1
+    If com(cIdx).iTmrCnt Mod 60 = 0 Then
+         com(cIdx).iTmrCnt = 0
     End If
     
-    Com(cIdx).task.Push ("AT+CSQ" & vbCrLf)
-    Com(cIdx).task.Push ("AT+COPS?" & vbCrLf)
-    
-    If Com(cIdx).Imei = "" Then
-        Com(cIdx).task.Push ("AT+CGSN" & vbCrLf)      ' Imei
-    End If
-    If Com(cIdx).Imsi = "" Then
-        Com(cIdx).task.Push ("AT+CIMI" & vbCrLf)
-    End If
-    
-    If Com(cIdx).blIsPickSms = True Then
-        Com(cIdx).task.Push ("AT+CMGL=""ALL""" & vbCrLf)
-        Com(cIdx).blIsPickSms = False ' 命令处理完成前，将不再发送新的取短信命令
+    If com(cIdx).iTmrCnt Mod 2 = 1 Then
+        Dim strTime As String
+        If DB.IsUsing("'" & com(cIdx).Iccid & "'", strTime) = True Then
+            strTime = 300 - (DateDiff("s", "1970-1-1 8:0:0", DateAdd("s", 0, Now())) - Val(strTime))
+            ListView.ListItems(cIdx + 1).SubItems(6) = Format(strTime, "000")
+        Else
+            ListView.ListItems(cIdx + 1).SubItems(6) = "---"
+        End If
     End If
     
-'    If Com(cIdx).bMobile = "" Then
-'        Com(cIdx).task.Push ("AT+CCFC=0,2" & vbCrLf)
-'    End If
+    If com(cIdx).blIsShowStat = True Then
+        Dim exec As Integer, pick As Integer
+        If com(cIdx).blIsATExecing = True Then
+            exec = 1
+        End If
+        If com(cIdx).blIsPickSms = True Then
+            pick = 1
+        End If
+        ListView.ListItems(cIdx + 1).SubItems(2) = "[" & Format(com(cIdx).kc, "000") & "-" & Format(com(cIdx).simIndex, "00") & "-" & Format(cIdx + 1, "00") & "]" & "-" & Format(com(cIdx).task.wIndex, "00") & "-" & Format(com(cIdx).task.rIndex, "00") & "-" & _
+                                                        exec & "-" & Format(com(cIdx).iWaitCnt, "00") & "-" & Format(kc.iNullCnt, "00")
+    End If
+    If com(cIdx).blIsCheck = True And com(cIdx).blIsNormal = True Then
     
-    ListView.ListItems(cIdx + 1).SubItems(2) = Com(cIdx).task.wIndex & "-" & Com(cIdx).task.rIndex & "-" & _
-                                                exec & "-" & pick & "-" & Com(cIdx).iWaitCnt
-    TimerComTask(cIdx).Enabled = True
+        ' 如果正在发短信或者设置呼转,则不往任务队列推送新的命令任务
+        If com(cIdx).iSmsId > 0 Or com(cIdx).iBindId > 0 Then
+            ListView.ListItems(cIdx + 1).SubItems(2) = "[" & com(cIdx).iSmsId & "|" & com(cIdx).iBindId & "]"
+            Exit Sub
+        End If
+        
+        'com(cIdx).task.Push ("AT+CSQ" & vbCrLf)
+        
+        com(cIdx).task.Push ("AT+CIMI" & vbCrLf)
+        
+        If com(cIdx).SP = "" Then
+            com(cIdx).task.Push ("AT+COPS?" & vbCrLf)
+        End If
+        
+        If com(cIdx).Imei = "" Then
+            com(cIdx).task.Push ("AT+CGSN" & vbCrLf)      ' Imei
+        End If
+        
+        'If com(cIdx).Imsi = "" Then
+        
+        'End If
+        
+        If com(cIdx).blIsPickSms = True Then
+            com(cIdx).task.Push ("AT+CMGL=""ALL""" & vbCrLf)
+            com(cIdx).blIsPickSms = False ' 命令处理完成前，将不再发送新的取短信命令
+        End If
+        
+        TimerComTask(cIdx).Enabled = True
+    End If
+    
+    
 End Sub
 
 Private Sub TimerComTask_Timer(cIdx As Integer)
     Dim strAT As String
-    strAT = Com(cIdx).task.Top
+    strAT = com(cIdx).task.Top
     If strAT = Empty Then
         TimerComTask(cIdx).Enabled = False
         Exit Sub
     End If
-    
-    If UCase(Left(strAT, 2)) = "AT" And Com(cIdx).blIsATExecing = True Then
+
+    If UCase(Left(strAT, 2)) = "AT" And com(cIdx).blIsATExecing = True Then 'Or strAT = "--SWITCH--")
         Exit Sub
     End If
-    
-    If Com(cIdx).blIsOpen = True Then
+    'If com(cIdx).blIsNormal = True Then
         Select Case strAT
             Case "--TAIL--"
                 Dim tail(0) As Byte
-                strAT = Com(cIdx).task.Pop
+                strAT = com(cIdx).task.Pop
                 tail(0) = &H1A
-                Com(cIdx).WriteData (tail)
+                com(cIdx).WriteData (tail)
             Case "--STOP--"
-                strAT = Com(cIdx).task.Pop
+                strAT = com(cIdx).task.Pop
                 TimerComTask(cIdx).Enabled = False
                 ListView.ListItems(cIdx + 1).SubItems(2) = "已暂停"
             Case "--CLOSE--"
-                If Com(cIdx).blIsOpen = True Or Com(cIdx).Iccid <> "" Then ' 开着的或者无手机号的
-                    TimerComCheck(cIdx).Enabled = False
-                    Com(cIdx).WriteData ("AT+CFUN=0" & vbCrLf)
+                TimerComRead(cIdx).Enabled = True
+                If com(cIdx).blIsOpen = True Or com(cIdx).Iccid <> "" Then ' 开着的或者无手机号的
+                    com(cIdx).blIsCheck = False
+                    com(cIdx).WriteData ("AT+CFUN=0" & vbCrLf)
                 Else    ' 无sim卡
-                    strAT = Com(cIdx).task.Pop
-                    Com(cIdx).blIsATExecing = False
-                    TimerComRead(cIdx).Enabled = False
-                    TimerComTask(cIdx).Enabled = False
-                    TimerComCheck(cIdx).Enabled = False
-                    ListView.ListItems(cIdx + 1).SubItems(3) = ""
-                    ListView.ListItems(cIdx + 1).SubItems(4) = ""
-                    ListView.ListItems(cIdx + 1).SubItems(5) = ""
-                    ListView.ListItems(cIdx + 1).SubItems(6) = ""
-                    ListView.ListItems(cIdx + 1).SubItems(7) = ""
-                    ListView.ListItems(cIdx + 1).SubItems(8) = ""
-                    ListView.ListItems(cIdx + 1).SubItems(9) = ""
-                    DB.setCardClose ("'" & Com(cIdx).Iccid & "'")
-                    Com(cIdx).ReSet
-                    ListView.ListItems(cIdx + 1).SubItems(2) = "未开启"
+                     strAT = com(cIdx).task.Pop
+                     CloseCom (cIdx)
+                End If
+            Case "--SWITCH--"
+                TimerComRead(cIdx).Enabled = True
+                If com(cIdx).blIsOpen = True Or com(cIdx).Iccid <> "" Then ' 开着的或者无手机号的
+                    com(cIdx).blIsCheck = False
+                    com(cIdx).blIsATExecing = True
+                    com(cIdx).WriteData ("AT+CFUN=0" & vbCrLf)
+                Else    ' 无sim卡
+                     strAT = com(cIdx).task.Pop
+                     CloseCom (cIdx)
+                     kc.task.Push ("AT+NEXT11-" & Format(cIdx + 1, "00") & vbCrLf)
+                     TimerKcTask.Enabled = True
                 End If
             Case Else
-                strAT = Com(cIdx).task.Pop
-                'Or InStr(strAT, "AT+CMGL") > 0 Or InStr(strAT, "AT+CCFC") > 0
+                strAT = com(cIdx).task.Pop
                 If UCase(Left(strAT, 2)) = "AT" Then
-                    Com(cIdx).blIsATExecing = True
+                    com(cIdx).blIsATExecing = True
                 End If
-                Com(cIdx).WriteData (strAT)
+                com(cIdx).WriteData (strAT)
         End Select
-    End If
+    'End If
 End Sub
 
 
@@ -872,205 +1254,203 @@ Private Sub TimerComRead_Timer(cIdx As Integer)
     Dim strOut As String
     Dim strAT As String
     Dim smsArr() As SMSDef
-    strTmp = Com(cIdx).ReadData
-    If Com(cIdx).iWaitCnt >= 10 Then
-        Com(cIdx).iWaitCnt = 0
-        Com(cIdx).blIsATExecing = False
+    strTmp = com(cIdx).ReadData
+    If com(cIdx).iWaitCnt >= 40 Then
+        If com(cIdx).iWaitCnt >= 98 And (com(cIdx).blIsCheck = True Or com(cIdx).blIsPickSms = True) Then
+            com(cIdx).iWaitCnt = 0
+            com(cIdx).blIsNormal = False
+            ListView.ListItems(cIdx + 1).SubItems(2) = "串口无响应"
+        End If
+        If com(cIdx).iWaitCnt Mod 40 = 0 Then
+            com(cIdx).blIsATExecing = False
+        End If
     End If
     If strTmp = "" Then
         Exit Sub
     End If
-    If Com(cIdx).blIsOpen = True Then
+    If com(cIdx).blIsOpen = True Then
         If cIdx = g_iDebugIndex Then
             TextLog.Text = TextLog.Text & strTmp ' & vbCrLf & "------------------" & vbCrLf
             TextLog.SelStart = Len(TextLog.Text)
         End If
-        strAtData = Com(cIdx).GetData(strTmp)
+        strAtData = com(cIdx).GetData(strTmp)
         If strAtData = Empty Then
             Exit Sub
         End If
-            
-        strAT = Com(cIdx).AnalysisData(strAtData, strOut)
+        
+        strAT = com(cIdx).AnalysisData(strAtData, strOut)
         
         If strAT = "" Then 'And strAT <> vbCr And strAtData <> vbCrLf And Not IsEmpty(strAT)
             Exit Sub
         End If
         
-        Com(cIdx).blIsATExecing = False
-        'TextRec.Text =  &TextRec.Text & strOut "------------------" & vbCrLf
+        com(cIdx).blIsATExecing = False
         Select Case strAT
             Case "AT+CSQ"
-                ListView.ListItems(cIdx + 1).SubItems(8) = strOut
+                ListView.ListItems(cIdx + 1).SubItems(6) = strOut
+            Case "AT+CSCA?"
             Case "AT+COPS?"
-                ListView.ListItems(cIdx + 1).SubItems(9) = strOut
+                com(cIdx).SP = strOut
+                'ListView.ListItems(cIdx + 1).SubItems(6) = strOut
             Case "AT+CGSN"
-                Com(cIdx).Imei = strOut
+                com(cIdx).Imei = strOut
                 ListView.ListItems(cIdx + 1).SubItems(5) = strOut
             Case "AT+CIMI"
-                Com(cIdx).Imsi = strOut
-                ListView.ListItems(cIdx + 1).SubItems(6) = strOut
+                com(cIdx).Imsi = strOut
             Case "AT+CCFC=0,2"
-                Com(cIdx).bMobile = strOut
-                ListView.ListItems(cIdx + 1).SubItems(7) = strOut
-                If Com(cIdx).iQccfcCnt >= 15 And strOut = "" Then
-                    Com(cIdx).bMobile = "0"
-                    ListView.ListItems(cIdx + 1).SubItems(7) = "(无)"
+                If com(cIdx).iQccfcCnt < 10 And strOut = "" Then
+                    com(cIdx).task.Push ("AT+CCFC=0,2" & vbCrLf)
+                Else
+                    ' 查数据库，提取数据库绑定手机
+                    
+                    ' 输出到回显窗口
+                    If strOut <> "" Then
+                        TextDsp.Text = TextDsp.Text & Now() & vbCrLf & _
+                                            "手机号: " & com(cIdx).Mobile & "(" & com(cIdx).Iccid & ")" & vbCrLf & _
+                                            "    设置的呼转号码为 【" & strOut & "】" & vbCrLf & _
+                                            "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+                    Else
+                        TextDsp.Text = TextDsp.Text & Now() & vbCrLf & _
+                                        "手机号: " & com(cIdx).Mobile & "(" & com(cIdx).Iccid & ")" & vbCrLf & _
+                                        "    没查到或没设置呼转号码" & vbCrLf & _
+                                        "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+                    End If
                 End If
             Case "-AT-BIND-MOBILE-OK-"
-                DB.SetBinded Com(cIdx).Iccid, Com(cIdx).iBindId
-                Com(cIdx).iBindId = 0
+                DB.SetBinded com(cIdx).Iccid, com(cIdx).iBindId
+                com(cIdx).iBindId = 0
             Case "-AT-BIND-MOBILE-FAILED-"
-                DB.SetNotBind Com(cIdx).Iccid, Com(cIdx).iBindId
-                Com(cIdx).iBindId = 0
+                DB.SetNotBind com(cIdx).Iccid, com(cIdx).iBindId
+                com(cIdx).iBindId = 0
             Case "-AT-UNBIND-MOBILE-OK-"
-                DB.SetBinded Com(cIdx).Iccid, Com(cIdx).iBindId
-                Com(cIdx).iBindId = 0
-                Com(cIdx).bMobile = ""
-                ListView.ListItems(cIdx + 1).SubItems(7) = ""
+                DB.SetBinded com(cIdx).Iccid, com(cIdx).iBindId
+                com(cIdx).iBindId = 0
+                com(cIdx).bMobile = ""
             Case "-AT-UNBIND-MOBILE-FAILED-"
-                DB.SetNotBind Com(cIdx).Iccid, Com(cIdx).iBindId
-                Com(cIdx).iBindId = 0
+                DB.SetNotBind com(cIdx).Iccid, com(cIdx).iBindId
+                com(cIdx).iBindId = 0
             Case "AT+CMGL"
                 If InStr(strOut, "ERROR") Then
-                    Com(cIdx).task.Push ("AT+CMGF=1" & vbCrLf)    ' 设置短信格式
+                    com(cIdx).task.Push ("AT+CMGF=1" & vbCrLf)    ' 设置短信格式
+                    com(cIdx).task.Push ("AT+CSCS=""UCS2""" & vbCrLf)    ' 设置短信编码
                 End If
                 strOut = PickAllSMS(strOut, smsArr)
                 If UBound(smsArr) > 0 Then
                     For n = 1 To UBound(smsArr)
-                         If cIdx = g_iDebugIndex Then
-                             TextRec.Text = TextRec.Text & vbCrLf & smsArr(n).SmsIndex & vbTab _
+                         'If cIdx = g_iDebugIndex Then
+                         If g_blPrint = True Then
+                             TextDsp.Text = TextDsp.Text & vbCrLf & smsArr(n).SmsIndex & vbTab _
                                             & smsArr(n).DateTime & vbTab _
                                             & smsArr(n).SourceNo & vbCrLf _
                                             & smsArr(n).SmsMain & vbCrLf _
                                             & "-------------------------------------" & vbCrLf
-                             TextRec.SelStart = Len(TextRec.Text)
+                             TextDsp.SelStart = Len(TextDsp.Text)
                          End If
-                         If Com(cIdx).Iccid <> "" Then
-                            DB.SaveSMS Com(cIdx).Iccid, smsArr(n).SourceNo, smsArr(n).SmsMain, smsArr(n).DateTime, Com(cIdx).Mobile
-                            Com(cIdx).task.Push ("AT+CMGD=" & smsArr(n).SmsIndex & vbCrLf)
+                         'End If
+                         If com(cIdx).Iccid <> "" Then
+                            DB.SaveSMS com(cIdx).Iccid, smsArr(n).SourceNo, smsArr(n).SmsMain, smsArr(n).DateTime, com(cIdx).Mobile
+                            com(cIdx).task.Push ("AT+CMGD=" & smsArr(n).SmsIndex & vbCrLf)
                          End If
                     Next n
                 End If
-                Com(cIdx).blIsPickSms = True    ' 处理完成后,继续接受新的取短信命令
+                com(cIdx).blIsPickSms = True    ' 处理完成后,继续接受新的取短信命令
             Case "+CMTI:" ' 收到新短信
             Case "-AT-SMS-SEND-OK-" ' 短信发送成功
-                DB.SetSMSSended Com(cIdx).Iccid, Com(cIdx).iSmsId
-                Com(cIdx).iSmsId = 0
+                DB.SetSMSSended com(cIdx).Iccid, com(cIdx).iSmsId
+                com(cIdx).iSmsId = 0
             Case "-AT-SMS-SEND-FAILED-" '短信发送失败
-                DB.SetSMSNotSend Com(cIdx).Iccid, Com(cIdx).iSmsId
-                Com(cIdx).iSmsId = 0
+                DB.SetSMSNotSend com(cIdx).Iccid, com(cIdx).iSmsId
+                com(cIdx).iSmsId = 0
             Case "-AT-INIT-OK-"    ' 初始化【步骤一：成功】
-                Com(cIdx).task.Push ("ATE1" & vbCrLf)         ' 开启回显
-                Com(cIdx).task.Push ("AT+CIURC=0" & vbCrLf)
-                Com(cIdx).task.Push ("AT+CGSN" & vbCrLf)
-                Com(cIdx).task.Push ("AT+CIMI" & vbCrLf)
-                Com(cIdx).task.Push ("AT+CNMI=2,1" & vbCrLf)  '
-                Com(cIdx).task.Push ("AT+CMGF=1" & vbCrLf)    ' 设置短信格式
-                Com(cIdx).task.Push ("AT+CGSN" & vbCrLf)
-                Com(cIdx).task.Push ("AT+CIMI" & vbCrLf)
-                Com(cIdx).task.Push ("AT+CCID" & vbCrLf)      ' 查询ICCID号
+                com(cIdx).task.Push ("ATE1" & vbCrLf)         ' 开启回显
+                'com(cIdx).task.Push ("AT+CGSN" & vbCrLf)
+                com(cIdx).task.Push ("AT+CGSN" & vbCrLf)
+                com(cIdx).task.Push ("AT+CIMI" & vbCrLf)
+                com(cIdx).task.Push ("AT+CNMI=2,1" & vbCrLf)  '
+                com(cIdx).task.Push ("AT+CSCS=""UCS2""" & vbCrLf)    ' 设置短信编码
+                com(cIdx).task.Push ("AT+CCID" & vbCrLf)      ' 查询ICCID号
                 ListView.ListItems(cIdx + 1).SubItems(2) = "初始化中(1)..."
                 ' 开启串口命令任务定时器
+                TimerComTask(cIdx).Interval = 100
                 TimerComTask(cIdx).Enabled = True
-            Case "-AT-NO-CCID-"
-                ListView.ListItems(cIdx + 1).SubItems(2) = "串口无SIM卡"
             Case "AT+CCID"         ' 初始化【步骤二：成功】
+                com(cIdx).blIsNormal = True
                 If strOut = "-RETRY-" Then
-                    Com(cIdx).task.Push ("AT+CCID" & vbCrLf)      ' 查询ICCID号
+                    If com(cIdx).iTryCnt = 2 Then
+                        TimerComTask(cIdx).Interval = 600
+                    End If
+                    If com(cIdx).iTryCnt = 3 Then
+                        TimerComTask(cIdx).Interval = 900
+                    End If
+                    If com(cIdx).iTryCnt = 5 Then
+                        TimerComTask(cIdx).Interval = 1000
+                    End If
+                    com(cIdx).task.Push ("AT+CCID" & vbCrLf)      ' 查询ICCID号
+                    TimerComTask(cIdx).Enabled = True
+                ElseIf strOut = "-NO-CCID-" Then
+                    ListView.ListItems(cIdx + 1).SubItems(2) = "串口无SIM卡"
+                    com(cIdx).Iccid = ""
+                    com(cIdx).blIsShowStat = False
+                    TimerComRead(cIdx).Enabled = False
+                    kc.iNullCnt = kc.iNullCnt + 1
+                    If kc.iNullCnt = 16 Then
+                        kc.iNullCnt = 0
+                        If kc.blCanSwitch = True Then
+                            If DB.IsUsing(GetAllIccid) = False Then
+                                ' 切卡
+                                If InStr(kc.task.Top, "--KC-INDEX-AS-") > 0 Then
+                                Else
+                                    kc.task.Push ("--KC-INDEX-AS-" & Format((kc.rowIndex Mod 10) + 1, "00"))
+                                    TimerKcTask.Enabled = True
+                                End If
+                            End If
+                        End If
+                    End If
                 Else
-                    Com(cIdx).Iccid = Left(strOut, 19)
-                    ListView.ListItems(cIdx + 1).SubItems(4) = Left(strOut, 19)
+                    com(cIdx).Iccid = Left(strOut, 19)
+                    ListView.ListItems(cIdx + 1).SubItems(3) = Left(strOut, 19)
                     ' 向数据库注册本SIM卡，并获取手机号码
-                    Com(cIdx).Mobile = DB.RegistCard(Com(cIdx).Iccid, Com(cIdx).Imei, Com(cIdx).Imsi)
-                    If Com(cIdx).Mobile = "" Then
+                    com(cIdx).Mobile = DB.RegistCard(com(cIdx).Iccid, _
+                                                    Format(com(cIdx).kc, "000") & "-" & Format(com(cIdx).simIndex, "00") & "-" & Format(cIdx + 1, "00"), _
+                                                    com(cIdx).Imei, com(cIdx).Imsi)
+                    If com(cIdx).Mobile = "" Then
+                        com(cIdx).blIsShowStat = False
                         ListView.ListItems(cIdx + 1).SubItems(2) = "请先设置手机号"
+                        TimerComRead(cIdx).Enabled = False
                     Else
-                        Com(cIdx).blIsOpen = True
                         ListView.ListItems(cIdx + 1).SubItems(2) = "正常工作"
-                        ListView.ListItems(cIdx + 1).SubItems(3) = Com(cIdx).Mobile
-                        TimerComCheck(cIdx).Enabled = True
+                        ListView.ListItems(cIdx + 1).SubItems(4) = com(cIdx).Mobile
+                        com(cIdx).blIsCheck = True
+                        'Com(cIdx).blIsSwitch = True
                     End If
                 End If
+                If strOut <> "-RETRY-" Then
+                    com(cIdx).OldIccid = com(cIdx).Iccid
+                    TimerComCron(cIdx).Enabled = True
+                    TimerComTask(cIdx).Interval = 400
+                    TimerComTask(cIdx).Enabled = True
+                End If
             Case "-AT-EXIT-OK-"  '关闭sim指令 OK
-                TimerComRead(cIdx).Enabled = False
-                TimerComTask(cIdx).Enabled = False
-                TimerComCheck(cIdx).Enabled = False
-                ListView.ListItems(cIdx + 1).SubItems(3) = ""
-                ListView.ListItems(cIdx + 1).SubItems(4) = ""
-                ListView.ListItems(cIdx + 1).SubItems(5) = ""
-                ListView.ListItems(cIdx + 1).SubItems(6) = ""
-                ListView.ListItems(cIdx + 1).SubItems(7) = ""
-                ListView.ListItems(cIdx + 1).SubItems(8) = ""
-                ListView.ListItems(cIdx + 1).SubItems(9) = ""
-                DB.setCardClose ("'" & Com(cIdx).Iccid & "'")
-                Com(cIdx).ReSet
-                ListView.ListItems(cIdx + 1).SubItems(2) = "未开启"
+                 If com(cIdx).task.Top = "--SWITCH--" Then
+                    strAT = com(cIdx).task.Pop
+                    CloseCom (cIdx)
+                    kc.task.Push ("AT+NEXT11-" & Format(cIdx + 1, "00") & vbCrLf)
+                    TimerKcTask.Enabled = True
+                 Else
+                    CloseCom (cIdx)
+                 End If
             Case Else
-                Com(cIdx).blIsATExecing = False
+                com(cIdx).blIsATExecing = False
         End Select
     End If
 End Sub
-
-
-
-Private Sub TimerPickDBTask_Timer()
-    Dim I, j As Integer
-    Dim cIdx As Integer
-    Dim cntA As Integer, cntB As Integer
-    Dim strIccids As String
-    Dim execArr
-    If IsComEmpty = True Then
-        Exit Sub
-    End If
-    ' 执行绑定无条件呼转任务
-    execArr = DB.NotExecBind(GetAllIccid)
-    If LCase(TypeName(execArr)) = "string()" Then
-        cntA = UBound(execArr) + 1
-        For cIdx = 0 To UBound(Com())
-            For I = 0 To UBound(execArr)
-                If execArr(I, 0) = Com(cIdx).Iccid Then
-                    Com(cIdx).iBindId = Val(execArr(I, 1))
-                    If execArr(I, 2) <> "" Then
-                        Com(cIdx).bindMobile (execArr(I, 2))
-                    Else
-                        Com(cIdx).unBindMobile
-                    End If
-                End If
-                TimerComTask(cIdx).Enabled = True
-            Next I
-        Next cIdx
-    End If
-    ' 执行发送短信任务
-    'Frame1.Caption = GetAllIccid(True)
-    execArr = DB.NotSendedSMS(GetAllIccid(True))
-    If LCase(TypeName(execArr)) = "string()" Then
-        cntB = UBound(execArr) + 1
-        For cIdx = 0 To UBound(Com())
-            For I = 0 To UBound(execArr)
-                If Com(cIdx).Iccid = execArr(I, 0) Then
-                    Com(cIdx).iSmsId = Val(execArr(I, 1))
-                    'TimerComCheck(cIdx).Enabled = False
-                    If execArr(I, 2) = "10027" Then
-                        Com(cIdx).sendSMS execArr(I, 2), execArr(I, 3), True
-                    Else
-                        Com(cIdx).sendSMS execArr(I, 2), execArr(I, 3)
-                    End If
-                    TimerComTask(cIdx).Enabled = True
-                End If
-            Next I
-        Next cIdx
-    End If
-    Frame1.Caption = "串口列表 - 执行任务数[" & cntA & "][" & cntB & "](" & Now() & ")"
-End Sub
-
-
-Private Sub ListView_MouseDown(Button As Integer, Shift As Integer, X As Single, y As Single)
-    Dim Index As Integer
+Private Sub ListView_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    Dim index As Integer
     '按下鼠标右键
     If Button = vbRightButton Then
         If ListView.ListItems.Count > 0 Then
-            Index = ListView.SelectedItem.Index
-            If Com(Index - 1).blIsOpen = True Then
+            index = ListView.SelectedItem.index
+            If com(index - 1).blIsOpen = True Then
                 ' 开启关闭菜单
                 MENU_CLOSE.Visible = True
                 MENU_CLOSE.Enabled = True
@@ -1082,6 +1462,9 @@ Private Sub ListView_MouseDown(Button As Integer, Shift As Integer, X As Single,
                     MENU_STOP.Visible = True
                     MENU_STOP.Enabled = True
                 End If
+                
+                MENU_CCFC.Visible = True
+                MENU_CCFC.Enabled = True
             Else
                 ' 开启开启菜单
                 MENU_OPEN.Visible = True
@@ -1095,6 +1478,9 @@ Private Sub ListView_MouseDown(Button As Integer, Shift As Integer, X As Single,
                 ' 关闭恢复菜单
                 MENU_START.Visible = False
                 MENU_START.Enabled = False
+                
+                MENU_CCFC.Visible = False
+                MENU_CCFC.Enabled = False
             End If
             PopupMenu MenuList
         End If
@@ -1102,51 +1488,28 @@ Private Sub ListView_MouseDown(Button As Integer, Shift As Integer, X As Single,
 End Sub
 Private Sub MENU_OPEN_Click()
     Dim cIdx As Integer
-    cIdx = ListView.SelectedItem.Index - 1
-    If Com(cIdx).blIsOpen = False Then
-        On Error Resume Next        '判断该串口是否被打开
-        Com(cIdx).OpenPort
-        If Com(cIdx).blIsOpen = False Then
-            ListView.ListItems(cIdx + 1).SubItems(2) = ComErr(Com(cIdx).portErr)
-        Else
-            ListView.ListItems(cIdx + 1).SubItems(2) = "初始化中(0)..."
-            Com(cIdx).task.Push ("ATE1" & vbCrLf)
-            Com(cIdx).task.Push ("AT+CFUN=1,1" & vbCrLf)
-            ' 开启串口命令任务定时器
-            TimerComTask(cIdx).Enabled = True
-            TimerComRead(cIdx).Enabled = True
-        End If
-    Else
-        Com(cIdx).ClosePort
-        Com(cIdx).OpenPort
-        If Com(cIdx).blIsOpen = False Then
-            ListView.ListItems(cIdx + 1).SubItems(2) = ComErr(Com(cIdx).portErr)
-        Else
-            ListView.ListItems(cIdx + 1).SubItems(2) = "初始化中(0)..."
-            Com(cIdx).task.Push ("ATE1" & vbCrLf)
-            Com(cIdx).task.Push ("AT+CFUN=1,1" & vbCrLf)
-            ' 开启串口命令任务定时器
-            TimerComTask(cIdx).Enabled = True
-            TimerComRead(cIdx).Enabled = True
-        End If
-    End If
+    cIdx = ListView.SelectedItem.index - 1
+    OpenCom (cIdx)
 End Sub
 Private Sub MENU_CLOSE_Click()
     Dim cIdx As Integer
-    cIdx = ListView.SelectedItem.Index - 1
+    cIdx = ListView.SelectedItem.index - 1
     ' 修改数据库字段状态
-    DB.setCardClose ("'" & Com(cIdx).Iccid & "'")
+    DB.setCardClose ("'" & com(cIdx).Iccid & "'")
     ' 将停止命令推送入命令执行队列
-    Com(cIdx).task.Push ("--CLOSE--")
-    TimerComTask(cIdx).Enabled = True
-    TimerComCheck(cIdx).Enabled = False
+    If com(cIdx).task.Top <> "--CLOSE--" Then
+        com(cIdx).task.Push ("--CLOSE--")
+        TimerComTask(cIdx).Enabled = True
+    End If
+    com(cIdx).blIsCheck = False
 End Sub
 Private Sub MENU_STOP_Click()
     Dim cIdx As Integer
-    cIdx = ListView.SelectedItem.Index - 1
-    Com(cIdx).task.Push ("--STOP--") ' 将停止命令推送入命令执行队列
+    cIdx = ListView.SelectedItem.index - 1
+    com(cIdx).task.Push ("--STOP--") ' 将停止命令推送入命令执行队列
+    com(cIdx).blIsCheck = False
     TimerComTask(cIdx).Enabled = True
-    TimerComCheck(cIdx).Enabled = False
+    TimerComRead(cIdx).Enabled = False
     ' 菜单
     MENU_START.Visible = True
     MENU_START.Enabled = True
@@ -1155,9 +1518,10 @@ Private Sub MENU_STOP_Click()
 End Sub
 Private Sub MENU_START_Click()
     Dim cIdx As Integer
-    cIdx = ListView.SelectedItem.Index - 1
+    cIdx = ListView.SelectedItem.index - 1
+    com(cIdx).blIsCheck = True
     TimerComTask(cIdx).Enabled = True
-    TimerComCheck(cIdx).Enabled = True
+    TimerComRead(cIdx).Enabled = True
     ListView.ListItems(cIdx + 1).SubItems(2) = "正常工作"
     ' 菜单
     MENU_START.Visible = False
@@ -1166,16 +1530,93 @@ Private Sub MENU_START_Click()
     MENU_STOP.Enabled = True
 End Sub
 Private Sub MENU_DEBUG_Click()
-    If g_iDebugIndex = ListView.SelectedItem.Index - 1 Then
+    If g_iDebugIndex = ListView.SelectedItem.index - 1 Then
         g_iDebugIndex = -1
-        Frame3.Caption = "当前调试串口(无)"
+        Label1.Caption = "AT指令记录(无):"
     Else
-        g_iDebugIndex = ListView.SelectedItem.Index - 1
+        g_iDebugIndex = ListView.SelectedItem.index - 1
         TextLog.Text = ""
-        Frame3.Caption = "当前调试串口(COM" & Com(g_iDebugIndex).comPort & ")"
+        Label1.Caption = "AT指令记录(COM" & com(g_iDebugIndex).comPort & "):"
     End If
 End Sub
 
 
+Private Sub MENU_CCFC_Click()
+    Dim cIdx As Integer
+    cIdx = ListView.SelectedItem.index - 1
+    com(cIdx).task.Push ("AT+CCFC=0,2" & vbCrLf)
+    TimerComTask(cIdx).Enabled = True
+End Sub
+
+Private Sub MENU_INFO_Click()
+    Dim cIdx As Integer
+    cIdx = ListView.SelectedItem.index - 1 '"    呼转号码:" com(cidx).bMobile & vbcrlf &
+    If com(cIdx).blIsOpen = False Then
+        TextDsp.Text = TextDsp.Text & "      时间: " & Now() & vbCrLf & _
+                   "     COM" & com(cIdx).comPort & ": 未开启" & vbCrLf & _
+                   "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+    Else
+        TextDsp.Text = TextDsp.Text & "      时间: " & Now() & vbCrLf & _
+                   "     COM" & com(cIdx).comPort & ": 已开启" & vbCrLf & _
+                   "  手机号码: " & com(cIdx).Mobile & vbCrLf & _
+                   "   ICCID号: " & com(cIdx).Iccid & vbCrLf & _
+                   "  IMEI串号: " & com(cIdx).Imei & vbCrLf & _
+                   "  IMSI串号: " & com(cIdx).Imsi & vbCrLf & _
+                   "----- ----- ----- ----- ----- ----- -----" & vbCrLf
+    End If
+    TextDsp.SelStart = Len(TextDsp.Text)
+End Sub
 
 
+'**********************************************************************
+' 串口扫描
+'**********************************************************************
+Function comportScan(kc As Integer, comPort() As String)
+    Dim I As Integer
+    Dim ret As Long
+    ReDim Preserve comPort(0)
+    Dim com() As Integer
+    com() = DB.GetComByKc(kc)
+    For I = 0 To UBound(com())
+        ret = sio_open(com(I))
+        If ret = SIO_OK Then
+            sio_close (com(I))
+            comPort(UBound(comPort())) = com(I)
+            ReDim Preserve comPort(UBound(comPort()) + 1)
+        End If
+    Next I
+    ReDim Preserve comPort(UBound(comPort()) - 1)
+End Function
+
+
+Public Function OpenCom(ByRef cIdx As Integer)
+    If com(cIdx).blIsOpen = False Then
+        com(cIdx).OpenPort
+        If com(cIdx).blIsOpen = False Then
+            ListView.ListItems(cIdx + 1).SubItems(2) = ComErr(com(cIdx).portErr)
+        Else
+            ListView.ListItems(cIdx + 1).SubItems(2) = "初始化中(0)..."
+            com(cIdx).task.Clean
+            com(cIdx).task.Push ("ATE1" & vbCrLf)
+            com(cIdx).task.Push ("AT+CFUN=1,1" & vbCrLf)
+            ' 开启串口命令任务定时器
+            TimerComTask(cIdx).Enabled = True
+            TimerComRead(cIdx).Enabled = True
+        End If
+    End If
+End Function
+
+Public Function CloseCom(ByRef cIdx As Integer)
+    TimerComRead(cIdx).Enabled = False
+    TimerComTask(cIdx).Enabled = False
+    com(cIdx).blIsCheck = False
+    TimerComCron(cIdx).Enabled = False
+    ListView.ListItems(cIdx + 1).SubItems(3) = ""
+    ListView.ListItems(cIdx + 1).SubItems(4) = ""
+    ListView.ListItems(cIdx + 1).SubItems(5) = ""
+    ListView.ListItems(cIdx + 1).SubItems(6) = ""
+    'ListView.ListItems(cIdx + 1).SubItems(6) = ""
+    DB.setCardClose ("'" & com(cIdx).Iccid & "'")
+    com(cIdx).ReSet
+    ListView.ListItems(cIdx + 1).SubItems(2) = "未开启"
+End Function

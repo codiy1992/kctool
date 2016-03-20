@@ -1,26 +1,6 @@
 Attribute VB_Name = "mdlComFuns"
 Option Explicit
 '**********************************************************************
-' 串口扫描
-'**********************************************************************
-Function comportScan(comPort() As String)
-    Dim I As Integer
-    Dim ret As Long
-    ReDim Preserve comPort(0)
-    For I = 2 To 32
-        If I <> 19 Then
-            ret = sio_open(I)
-            If ret = SIO_OK Then
-                sio_close (I)
-                comPort(UBound(comPort())) = I
-                ReDim Preserve comPort(UBound(comPort()) + 1)
-            End If
-        End If
-    Next I
-    ReDim Preserve comPort(UBound(comPort()) - 1)
-End Function
-
-'**********************************************************************
 ' 获取所有在运行的iccid
 '**********************************************************************
 Public Function GetAllIccid(Optional blIsSkipSendingSMS As Boolean) As String
@@ -28,15 +8,15 @@ Public Function GetAllIccid(Optional blIsSkipSendingSMS As Boolean) As String
     GetAllIccid = "''"
     If IsComEmpty = False Then
         If blIsSkipSendingSMS = True Then
-            For cIdx = 0 To UBound(Com())
-                If Com(cIdx).Iccid <> "" And Com(cIdx).iSmsId = 0 Then
-                    GetAllIccid = GetAllIccid & " , '" & Com(cIdx).Iccid & "'"
+            For cIdx = 0 To UBound(com())
+                If com(cIdx).Iccid <> "" And com(cIdx).iSmsId = 0 Then
+                    GetAllIccid = GetAllIccid & " , '" & com(cIdx).Iccid & "'"
                 End If
             Next cIdx
         Else
-            For cIdx = 0 To UBound(Com())
-                If Com(cIdx).Iccid <> "" Then
-                    GetAllIccid = GetAllIccid & " , '" & Com(cIdx).Iccid & "'"
+            For cIdx = 0 To UBound(com())
+                If com(cIdx).Iccid <> "" Then
+                    GetAllIccid = GetAllIccid & " , '" & com(cIdx).Iccid & "'"
                 End If
             Next cIdx
         End If
@@ -45,7 +25,7 @@ End Function
 
 Public Function IsComEmpty() As Boolean
     On Error GoTo Err
-    If UBound(Com()) > -1 Then
+    If UBound(com()) > -1 Then
         IsComEmpty = False
         Exit Function
     End If
@@ -82,9 +62,87 @@ Public Function ComErr(iErrCode As Integer) As String
     End Select
 End Function
 
+'#########################################################
+'功能： 生成短信PDU串
+'输入： 目标手机号码、短信息内容、[可选的短信服务中心号码]
+'输出： 生成的PDU串
+'返回： 整个字串的长度
+'#########################################################
+Public Function SmsPDU(ByVal DestNo As String, _
+                        ByVal SMSText As String, _
+                        ByRef PDUString As String, _
+                        Optional ByVal ServiceNo As String) As Long
+    On Error GoTo ErrorPDU
+    Dim I As Integer
+    Dim iAsc As Integer
+    Dim iLen As Integer
+    Dim strTmp As String
+    Dim strTmp2 As String
+    Dim strChar As String
+    
+    If SMSText = "" Then Exit Function
+    
+    ' 对消息中心号码进行编码
+    If ServiceNo = "" Then
+        ServiceNo = "00"
+    Else
+        If Left(ServiceNo, 3) = "+86" Then
+            ServiceNo = Mid(ServiceNo, 4)
+        End If
+        For I = 1 To Len(ServiceNo)
+            strChar = Mid(ServiceNo, I, 1)
+            iAsc = Asc(strChar)
+            If iAsc > 57 Or iAsc < 48 Then Exit Function
+        Next I
+        If Len(ServiceNo) Mod 2 = 1 Then
+            ServiceNo = ServiceNo & "F"
+        End If
+        For I = 1 To 12 Step 2
+            strTmp2 = Mid(ServiceNo, I, 2)
+            strTmp = strTmp & Right(strTmp2, 1) & Left(strTmp2, 1)
+        Next I
+        ServiceNo = "089168" & strTmp
+    End If
+    
+    ' 对目标号码进行编码 0D9168
+    strTmp2 = ""
+    strTmp = ""
+    If Left(DestNo, 3) = "+86" Then
+        DestNo = Mid(DestNo, 4)
+    End If
+    
+    For I = 1 To Len(DestNo)
+        strChar = Mid(DestNo, I, 1)
+        iAsc = Asc(strChar)
+        If iAsc > 57 Or iAsc < 48 Then Exit Function
+    Next I
+    
+    If Len(DestNo) Mod 2 = 1 Then
+        DestNo = DestNo & "F"
+    End If
 
+    For I = 1 To Len(DestNo) Step 2
+        strTmp2 = Mid(DestNo, I, 2)
+        strTmp = strTmp & Right(strTmp2, 1) & Left(strTmp2, 1)
+    Next I
+    
+    DestNo = "0" & Hex(Len(strTmp) + 1) & "9168" & strTmp
 
-
+    ' 对内容进行编码
+    SMSText = GB2Unicode(SMSText)
+    iLen = Len(SMSText) \ 2
+    strChar = Hex(iLen)
+    If Len(strChar) < 2 Then strChar = "0" & strChar
+    SMSText = strChar & SMSText
+    
+    
+    SmsPDU = Len("1100") / 2 + Len(DestNo) / 2 + Len("0008AA") / 2 + Len(SMSText) / 2
+    PDUString = ServiceNo & "1100" & DestNo & "0008AA" & SMSText
+    Exit Function
+ErrorPDU:
+    SmsPDU = 0
+    PDUString = ""
+End Function
 
 Public Function PickAllSMS(ByRef InputString As String, RetSMS() As SMSDef) As String
 

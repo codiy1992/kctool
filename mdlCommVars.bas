@@ -1,11 +1,13 @@
 Attribute VB_Name = "mdlCommVars"
 Option Explicit
 
-Public Com() As Com         ' 串口对象数组
-Public Kc As Com
+Public com() As com         ' 串口对象数组
+Public kc As kc             ' 卡池对象
 Public DB As New DB         ' 数据库对象
-Public g_show As Boolean
+
+Public g_blPrint
 Public g_iDebugIndex As Integer ' 当前调试串口
+
 
 
 
